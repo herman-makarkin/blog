@@ -6,12 +6,23 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use function Laravel\Prompts\search;
+
 class PostController extends Controller
 {
     public function index()
     {
         $sortMode = request('sort_mode', 'desc');
-        $posts = Post::query()->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
+        $search = request('search', '');
+
+        if ($search) {
+            $posts = Post::where('title', 'like', '%' . $search . '%');
+        } else {
+            $posts = Post::query();
+        }
+
+        $posts = $posts->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
+
 
         foreach ($posts as $post) {
             $post->body = $post->getExcerpt();

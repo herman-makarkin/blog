@@ -16,7 +16,10 @@ const blogIndex = ({ posts, queryParams }) => {
         router.get(route('post.index'), queryParams);
     };
 
-
+    const searchChanged = (search: string): void => {
+        queryParams['search'] = search;
+        router.get(route('post.index'), queryParams);
+    };
 
     return (
         <AuthenticatedLayout
@@ -56,7 +59,7 @@ const blogIndex = ({ posts, queryParams }) => {
                         </div>
                     </div>
                     <div className="col-3">
-                        <Sidebar></Sidebar>
+                        <Sidebar searchChanged={searchChanged} />
                     </div>
                 </div>
             </Container>
