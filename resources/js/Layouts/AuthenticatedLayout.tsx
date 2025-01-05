@@ -33,6 +33,12 @@ export default function Authenticated({
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    href={route('post.index')}
+                                    active={route().current('post.index')}
+                                >
+                                    Blog
+                                </NavLink>
                             </div>
                         </div>
 

@@ -23,7 +23,7 @@ class PostFactory extends Factory
             'slug' => $this->faker->slug(3),
             'image' => $this->faker->imageUrl(),
             'body' => $this->faker->paragraph(10),
-            'published_at' => $this->faker->dateTimeBetween('-30 years', 'now'),
+            'published_at' => $this->faker->dateTimeBetween('-2 weeks', 'now'),
             'featured' => $this->faker->boolean(10),
         ];
     }
