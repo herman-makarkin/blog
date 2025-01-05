@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,6 +23,7 @@ class PostController extends Controller
         }
 
         $posts = $posts->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
+        $categories = Category::take(5)->get();
 
 
         foreach ($posts as $post) {
@@ -34,6 +36,7 @@ class PostController extends Controller
         return Inertia::render("Blog/Index", [
             'posts' => $posts,
             'queryParams' => request()->query() ?: null,
+            'categories' => $categories,
         ]);
     }
 }

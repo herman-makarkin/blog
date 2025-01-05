@@ -7,7 +7,7 @@ import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
 import Tab from '@/Components/Tab';
 
-const blogIndex = ({ posts, queryParams }) => {
+const blogIndex = ({ posts, queryParams, categories }) => {
     console.log(posts);
     queryParams = queryParams || {};
 
@@ -59,7 +59,7 @@ const blogIndex = ({ posts, queryParams }) => {
                         </div>
                     </div>
                     <div className="col-3">
-                        <Sidebar searchChanged={searchChanged} />
+                        <Sidebar categories={categories} searchChanged={searchChanged} />
                     </div>
                 </div>
             </Container>

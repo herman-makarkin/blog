@@ -1,12 +1,14 @@
+import { Link } from '@inertiajs/react';
 import React from 'react'
 import { InputGroup, FormGroup } from 'react-bootstrap'
 
-const Sidebar = ({ searchChanged }) => {
+const Sidebar = ({ searchChanged, categories }) => {
     let search = '';
     const setSearch = (value) => {
         console.log(value);
         search = value;
     }
+    console.log(categories);
 
     return (
         <div>
@@ -21,6 +23,11 @@ const Sidebar = ({ searchChanged }) => {
                 </button>
             </InputGroup>
             <h3 className='mt-5 mb-2'>Recommended Topics</h3>
+            <div className="d-flex flex-wrap">
+                {categories.map((el, id) => (
+                    <button key={id} style={{ color: el.text_color, backgroundColor: el.bg_color }}>{el.title}</button>
+                ))}
+            </div>
             <div className="d-flex flex-row flex-wrap"></div>
 
         </div>
