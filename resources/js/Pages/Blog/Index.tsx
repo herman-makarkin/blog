@@ -4,8 +4,10 @@ import { Head } from '@inertiajs/react';
 import Sidebar from '@/Components/Sidebar';
 import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
+import Pagination from '@/Components/Pagination';
 
 const blogIndex = ({ posts }) => {
+    console.log(posts);
     return (
         <AuthenticatedLayout
             header={
@@ -20,8 +22,8 @@ const blogIndex = ({ posts }) => {
             <Container className='mt-5'>
                 <div className="row">
                     <div className="col">
-                        {posts.map(el => (
-                            <div className="mt-4">
+                        {posts.data.map((el, id) => (
+                            <div className="mt-4" key={id}>
                                 <PostItem
                                     readingTime={el.readingTime}
                                     author={el.author} title={el.title}
@@ -30,6 +32,10 @@ const blogIndex = ({ posts }) => {
                                 />
                             </div>
                         ))}
+
+                        <div className="d-flex flex-column justify-content-center align-items-center mt-3">
+                            <Pagination links={posts.links} />
+                        </div>
                     </div>
                     <div className="col-3">
                         <Sidebar></Sidebar>

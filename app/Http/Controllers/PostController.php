@@ -10,7 +10,7 @@ class PostController extends Controller
 {
     public function index(Request $request)
     {
-        $posts = Post::take(5)->get();
+        $posts = Post::query()->published()->orderBy('published_at', 'desc')->paginate(5)->onEachSide(1);
 
         foreach ($posts as $post) {
             $post->body = $post->getExcerpt();
