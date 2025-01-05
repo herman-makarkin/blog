@@ -14,12 +14,26 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $featuredPosts = Post::published()->featured()->latest('published_at')->take(3)->get();
+        $latestPosts = Post::published()->latest('published_at')->take(9)->get();
+
+        foreach ($featuredPosts as $post) {
+            $post->body = $post->getExcerpt();
+            $post->readingTime = $post->getReadingTime();
+            $post->publishedAt = $post->published_at->diffForHumans();
+        }
+
+        foreach ($latestPosts as $post) {
+            $post->body = $post->getExcerpt();
+            $post->readingTime = $post->getReadingTime();
+            $post->publishedAt = $post->published_at->diffForHumans();
+        }
 
 
         return Inertia::render("Dashboard", [
 
-            'featuredPosts' => Post::published()->featured()->latest('published_at')->take(3)->get(),
-            'latestPosts' => Post::published()->latest('published_at')->take(9)->get(),
+            'featuredPosts' => $featuredPosts,
+            'latestPosts' => $latestPosts,
 
         ]);
     }

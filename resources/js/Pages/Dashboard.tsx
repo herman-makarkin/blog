@@ -26,7 +26,7 @@ export default function Dashboard({ featuredPosts, latestPosts }) {
                     <div className="row">
                         {featuredPosts.map(el => (
                             <div className="col-lg-4 col-md-6">
-                                <PostComponent title={el.title} publishedAt={el.published_at} description={el.body} img={el.image}></PostComponent>
+                                <PostComponent title={el.title} publishedAt={el.publishedAt} description={el.body} img={el.image}></PostComponent>
                             </div>
                         ))}
                     </div>
