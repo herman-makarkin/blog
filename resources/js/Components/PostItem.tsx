@@ -5,7 +5,6 @@ import { Heart } from 'lucide-react';
 const PostComponent = ({ title, img, readingTime, author, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
-        // <div className="d-flex w-full">
         <Card className='d-flex w-full flex-row bg-transparent border-0'>
             <Card.Header className="me-3 border-0" style={{ maxWidth: '300px' }}>
                 <img src={img} className='rounded-5' />
@@ -25,7 +24,6 @@ const PostComponent = ({ title, img, readingTime, author, body, publishedAt }:
                     </button>
                 </Card.Footer>
             </Card.Body>
-            {/* </div> */}
         </Card>
     )
 }

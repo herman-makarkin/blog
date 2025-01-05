@@ -8,9 +8,10 @@ use Inertia\Inertia;
 
 class PostController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $posts = Post::query()->published()->orderBy('published_at', 'desc')->paginate(5)->onEachSide(1);
+        $sortMode = request('sort_mode', 'desc');
+        $posts = Post::query()->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
 
         foreach ($posts as $post) {
             $post->body = $post->getExcerpt();
@@ -21,6 +22,7 @@ class PostController extends Controller
 
         return Inertia::render("Blog/Index", [
             'posts' => $posts,
+            'queryParams' => request()->query() ?: null,
         ]);
     }
 }

@@ -1,13 +1,23 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import Sidebar from '@/Components/Sidebar';
 import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
+import Tab from '@/Components/Tab';
 
-const blogIndex = ({ posts }) => {
+const blogIndex = ({ posts, queryParams }) => {
     console.log(posts);
+    queryParams = queryParams || {};
+
+    const sortChanged = (sort: string): void => {
+        queryParams['sort_mode'] = sort;
+        router.get(route('post.index'), queryParams);
+    };
+
+
+
     return (
         <AuthenticatedLayout
             header={
@@ -22,6 +32,14 @@ const blogIndex = ({ posts }) => {
             <Container className='mt-5'>
                 <div className="row">
                     <div className="col">
+                        <ul className="nav nav-tabs">
+                            <li className="nav-item">
+                                <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text='Latest' mode='desc' />
+                            </li>
+                            <li className="nav-item">
+                                <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text="Oldest" mode='asc' />
+                            </li>
+                        </ul>
                         {posts.data.map((el, id) => (
                             <div className="mt-4" key={id}>
                                 <PostItem
