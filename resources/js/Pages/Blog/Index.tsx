@@ -1,6 +1,6 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import Sidebar from '@/Components/Sidebar';
 import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
@@ -46,6 +46,7 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                         {posts.data.map((el, id) => (
                             <div className="mt-4" key={id}>
                                 <PostItem
+                                    slug={el.slug}
                                     readingTime={el.readingTime}
                                     author={el.author} title={el.title}
                                     publishedAt={el.publishedAt}

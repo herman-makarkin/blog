@@ -1,8 +1,9 @@
 import React from 'react'
 import { Button, Card } from 'react-bootstrap';
 import { Heart } from 'lucide-react';
+import { Link } from '@inertiajs/react';
 
-const PostComponent = ({ title, img, readingTime, author, body, publishedAt }:
+const PostComponent = ({ slug, title, img, readingTime, author, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
         <Card className='d-flex w-full flex-row bg-transparent border-0'>
@@ -13,8 +14,8 @@ const PostComponent = ({ title, img, readingTime, author, body, publishedAt }:
                 <div className="author">
                     <p className="">{publishedAt}</p>
                 </div>
-                <h3>{title}</h3>
-                <p>{body}</p>
+                <Link href={route('post.show', slug)} className='h3'>{title}</Link>
+                <p className='mt-3'>{body}</p>
 
                 <Card.Footer className='pt-3 d-flex justify-content-between'>
                     <p>{readingTime} min read</p>
