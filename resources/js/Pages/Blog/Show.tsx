@@ -7,6 +7,7 @@ import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
 import Tab from '@/Components/Tab';
 import Category from '@/Components/Category';
+import { User } from '@/Components/User';
 
 const blogShow = ({ post }) => {
     // console.log(posts);
@@ -40,9 +41,9 @@ const blogShow = ({ post }) => {
                             <img className='w-full img-fluid  my-2 rounded-5' src={post.image} alt="" />
                         </div>
                         <h2 className='mt-2'>{post.title}</h2>
-                        <div className="mt-2 d-flex">
-                            <p>{post.author.name} </p>
-                            <p className='ms-4'> {post.publishedAt}</p>
+                        <div className="d-flex">
+                            <User author={post.author} />
+                            <span className='ms-5'>{post.publishedAt}</span>
                         </div>
                         <p className='mt-2'>{post.body}</p>
                         <div className="categories">

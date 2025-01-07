@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -19,6 +20,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'image',
         'name',
         'email',
         'password',
@@ -34,6 +36,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function getAvatarUrl()
+    {
+        if (str_contains($this->image, 'http')) {
+            return $this->image;
+        };
+
+        return Storage::url($this->image);
+
+
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -45,15 +58,5 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
-    }
-
-    public function likes()
-    {
-        return $this->belongsToMany(Post::class, 'post_like')->withTimestamps();
-    }
-
-    public function hasLiked(Post $post)
-    {
-        return $this->likes()->where('post_id', $this->post->id)->exists();
     }
 }

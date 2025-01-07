@@ -4,8 +4,10 @@ import { Heart } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import Category from './Category';
 import Like from './LikeButton';
+import Avatar from './Avatar';
+import { User } from './User';
 
-const PostComponent = ({ categories, authorName, slug, title, img, readingTime, body, publishedAt }:
+const PostComponent = ({ categories, author, slug, title, img, readingTime, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
         <Card className='d-flex w-full flex-row bg-transparent border-0'>
@@ -13,8 +15,9 @@ const PostComponent = ({ categories, authorName, slug, title, img, readingTime, 
                 <img src={img} className='rounded-5' />
             </Card.Header>
             <Card.Body className=''>
-                <div className="author">
-                    <p className='mb-2'>{authorName} <span className='ms-5'>{publishedAt}</span></p>
+                <div className="d-flex">
+                    <User author={author} />
+                    <span className='ms-5'>{publishedAt}</span>
                 </div>
                 <Link href={route('post.show', slug)} className='h3'>{title}</Link>
                 <p className='mt-2'>{body}</p>

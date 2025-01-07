@@ -46,7 +46,7 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                         {posts.data.map((el, id) => (
                             <div className="mt-4" key={id}>
                                 <PostItem
-                                    authorName={el.author.name}
+                                    author={el.author}
                                     slug={el.slug}
                                     readingTime={el.readingTime}
                                     author={el.author} title={el.title}
