@@ -3,6 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { Heart } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import Category from './Category';
+import Like from './LikeButton';
 
 const PostComponent = ({ categories, authorName, slug, title, img, readingTime, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
@@ -26,10 +27,8 @@ const PostComponent = ({ categories, authorName, slug, title, img, readingTime, 
                     </div>
                     <div className=" d-flex justify-content-between">
                         <p>{readingTime} min read</p>
-                        <button className="d-flex">
-                            <Heart />
-                            <span className='ms-2'>0</span>
-                        </button></div>
+                        <Like />
+                    </div>
                 </Card.Footer>
             </Card.Body>
         </Card>

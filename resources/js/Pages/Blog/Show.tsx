@@ -6,6 +6,7 @@ import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
 import Tab from '@/Components/Tab';
+import Category from '@/Components/Category';
 
 const blogShow = ({ post }) => {
     // console.log(posts);
@@ -32,39 +33,23 @@ const blogShow = ({ post }) => {
 
             <Head title="Blog" />
 
-            <Container className='mt-5'>
+            <Container>
                 <div className="d-flex justify-content-center">
-                    <div className="post">
-                        <div className="">
-                            <img src={post.image} alt="" />
+                    <div className="p-2" style={{ maxWidth: '850px' }}>
+                        <div className="d-flex justify-content-center col-span-4 article-thumbnail">
+                            <img className='w-full img-fluid  my-2 rounded-5' src={post.image} alt="" />
                         </div>
-                        <h2>{post.title}</h2>
-                        <p>{post.body}</p>
-                        {/* <ul className="nav nav-tabs"> */}
-                        {/*     <li className="nav-item"> */}
-                        {/*         <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text='Latest' mode='desc' /> */}
-                        {/*     </li> */}
-                        {/*     <li className="nav-item"> */}
-                        {/*         <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text="Oldest" mode='asc' /> */}
-                        {/*     </li> */}
-                        {/* </ul> */}
-                        {/* {posts.data.map((el, id) => ( */}
-                        {/*     <div className="mt-4" key={id}> */}
-                        {/*         <PostItem */}
-                        {/*             readingTime={el.readingTime} */}
-                        {/*             author={el.author} title={el.title} */}
-                        {/*             publishedAt={el.publishedAt} */}
-                        {/*             body={el.body} img={el.image} */}
-                        {/*         /> */}
-                        {/*     </div> */}
-                        {/* ))} */}
-
-                        {/*     <div className="d-flex flex-column justify-content-center align-items-center mt-3"> */}
-                        {/*         <Pagination links={posts.links} /> */}
-                        {/*     </div> */}
-                        {/* </div> */}
-                        {/* <div className="col-3"> */}
-                        {/*     <Sidebar categories={categories} searchChanged={searchChanged} /> */}
+                        <h2 className='mt-2'>{post.title}</h2>
+                        <div className="mt-2 d-flex">
+                            <p>{post.author.name} </p>
+                            <p className='ms-4'> {post.publishedAt}</p>
+                        </div>
+                        <p className='mt-2'>{post.body}</p>
+                        <div className="categories">
+                            {post.categories.map((el, id) => (
+                                <Category key={id} title={el.title} bg_color={el.bg_color} text_color={el.text_color} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </Container>

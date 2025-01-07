@@ -45,6 +45,9 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
+        $post->author = $post->user;
+        $post->publishedAt = $post->published_at->diffForHumans();
+        $post->categories = $post->categories;
         return Inertia::render("Blog/Show", [
             'post' => $post,
         ]);
