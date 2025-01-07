@@ -23,13 +23,16 @@ class PostController extends Controller
         }
 
         $posts = $posts->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
-        $categories = Category::take(5)->get();
+        $categories = Category::whereHas('posts', function ($query) {
+            $query->published();
+        })->take(10)->get();
 
 
         foreach ($posts as $post) {
             $post->body = $post->getExcerpt();
             $post->readingTime = $post->getReadingTime();
             $post->author = $post->user;
+            $post->categories = $post->categories;
             $post->publishedAt = $post->published_at->diffForHumans();
         }
 

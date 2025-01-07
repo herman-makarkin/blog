@@ -44,18 +44,17 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                             </li>
                         </ul>
                         {posts.data.map((el, id) => (
-                            <>
-                                <div className="mt-4" key={id}>
-                                    <PostItem
-                                        authorName={el.author.name}
-                                        slug={el.slug}
-                                        readingTime={el.readingTime}
-                                        author={el.author} title={el.title}
-                                        publishedAt={el.publishedAt}
-                                        body={el.body} img={el.image}
-                                    />
-                                </div>
-                            </>
+                            <div className="mt-4" key={id}>
+                                <PostItem
+                                    authorName={el.author.name}
+                                    slug={el.slug}
+                                    readingTime={el.readingTime}
+                                    author={el.author} title={el.title}
+                                    publishedAt={el.publishedAt}
+                                    body={el.body} img={el.image}
+                                    categories={el.categories}
+                                />
+                            </div>
                         ))}
 
                         <div className="d-flex flex-column justify-content-center align-items-center mt-3">

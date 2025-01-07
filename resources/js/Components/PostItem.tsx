@@ -2,8 +2,9 @@ import React from 'react'
 import { Button, Card } from 'react-bootstrap';
 import { Heart } from 'lucide-react';
 import { Link } from '@inertiajs/react';
+import Category from './Category';
 
-const PostComponent = ({ authorName, slug, title, img, readingTime, body, publishedAt }:
+const PostComponent = ({ categories, authorName, slug, title, img, readingTime, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
         <Card className='d-flex w-full flex-row bg-transparent border-0'>
@@ -12,17 +13,23 @@ const PostComponent = ({ authorName, slug, title, img, readingTime, body, publis
             </Card.Header>
             <Card.Body className=''>
                 <div className="author">
-                    <p>{authorName} <span className='ms-5'>{publishedAt}</span></p>
+                    <p className='mb-2'>{authorName} <span className='ms-5'>{publishedAt}</span></p>
                 </div>
                 <Link href={route('post.show', slug)} className='h3'>{title}</Link>
-                <p className='mt-3'>{body}</p>
+                <p className='mt-2'>{body}</p>
 
-                <Card.Footer className='pt-3 d-flex justify-content-between'>
-                    <p>{readingTime} min read</p>
-                    <button className="d-flex">
-                        <Heart />
-                        <span className='ms-2'>0</span>
-                    </button>
+                <Card.Footer className=''>
+                    <div className="">
+                        {categories.map((category, index) => (
+                            <Category text_color={category.text_color} bg_color={category.bg_color} title={category.title} />
+                        ))}
+                    </div>
+                    <div className=" d-flex justify-content-between">
+                        <p>{readingTime} min read</p>
+                        <button className="d-flex">
+                            <Heart />
+                            <span className='ms-2'>0</span>
+                        </button></div>
                 </Card.Footer>
             </Card.Body>
         </Card>
