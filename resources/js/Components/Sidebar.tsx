@@ -25,7 +25,7 @@ const Sidebar = ({ searchChanged, categories }) => {
             <h3 className='mt-5 mb-2'>Recommended Topics</h3>
             <div className="d-flex flex-wrap">
                 {categories.map((el, id) => (
-                    <button key={id} style={{ color: el.text_color, backgroundColor: el.bg_color }}>{el.title}</button>
+                    <button key={id} style={{ color: el.text_color, backgroundColor: el.bg_color }} className='me-3 rounded-3 mb-2 pb-1 pt-1 ps-2 pe-2'>{el.title}</button>
                 ))}
             </div>
             <div className="d-flex flex-row flex-wrap"></div>

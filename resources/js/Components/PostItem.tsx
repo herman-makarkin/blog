@@ -3,7 +3,7 @@ import { Button, Card } from 'react-bootstrap';
 import { Heart } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
-const PostComponent = ({ slug, title, img, readingTime, author, body, publishedAt }:
+const PostComponent = ({ authorName, slug, title, img, readingTime, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
         <Card className='d-flex w-full flex-row bg-transparent border-0'>
@@ -12,7 +12,7 @@ const PostComponent = ({ slug, title, img, readingTime, author, body, publishedA
             </Card.Header>
             <Card.Body className=''>
                 <div className="author">
-                    <p className="">{publishedAt}</p>
+                    <p>{authorName} <span className='ms-5'>{publishedAt}</span></p>
                 </div>
                 <Link href={route('post.show', slug)} className='h3'>{title}</Link>
                 <p className='mt-3'>{body}</p>

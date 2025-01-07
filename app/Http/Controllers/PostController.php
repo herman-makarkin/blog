@@ -29,7 +29,7 @@ class PostController extends Controller
         foreach ($posts as $post) {
             $post->body = $post->getExcerpt();
             $post->readingTime = $post->getReadingTime();
-            $post->author = $post->author();
+            $post->author = $post->user;
             $post->publishedAt = $post->published_at->diffForHumans();
         }
 
