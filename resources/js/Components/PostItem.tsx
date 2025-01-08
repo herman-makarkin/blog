@@ -7,7 +7,7 @@ import Like from './LikeButton';
 import Avatar from './Avatar';
 import { User } from './User';
 
-const PostComponent = ({ categories, author, slug, title, img, readingTime, body, publishedAt }:
+const PostComponent = ({ likes, categories, author, slug, title, img, readingTime, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
         <Card className='d-flex w-full flex-row bg-transparent border-0'>
@@ -30,7 +30,7 @@ const PostComponent = ({ categories, author, slug, title, img, readingTime, body
                     </div>
                     <div className=" d-flex justify-content-between">
                         <p>{readingTime} min read</p>
-                        <Like />
+                        <Like slug={slug} likes={likes} />
                     </div>
                 </Card.Footer>
             </Card.Body>

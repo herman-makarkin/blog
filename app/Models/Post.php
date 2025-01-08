@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -65,14 +66,9 @@ class Post extends Model
         return ($minutes < 1) ? 1 : $minutes;
     }
 
-    public function likes()
-    {
-        return $this->belongsToMany(Post::class, 'post_like')->withTimestamps();
-    }
-
     public function hasLiked(Post $post)
     {
-        return $this->likes()->where('post_id', $this->post->id)->exists();
+        return $this->likes()->where('likeable_id', $this->id)->exists();
     }
 
     public function getThumbnailUrl()
@@ -80,5 +76,16 @@ class Post extends Model
         $isUrl = str_contains($this->image, 'http');
 
         return ($isUrl) ? $this->image : Storage::disk('public')->url($this->image);
+    }
+
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function getLikes()
+    {
+        return $this->likes()->count();
     }
 }

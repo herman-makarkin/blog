@@ -10,6 +10,7 @@ import Tab from '@/Components/Tab';
 const blogIndex = ({ posts, queryParams, categories }) => {
     console.log(posts);
     queryParams = queryParams || {};
+    console.log(posts);
 
     const sortChanged = (sort: string): void => {
         queryParams['sort_mode'] = sort;
@@ -46,13 +47,14 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                         {posts.data.map((el, id) => (
                             <div className="mt-4" key={id}>
                                 <PostItem
-                                    author={el.author}
                                     slug={el.slug}
                                     readingTime={el.readingTime}
-                                    author={el.author} title={el.title}
+                                    author={el.author}
+                                    title={el.title}
                                     publishedAt={el.publishedAt}
                                     body={el.body} img={el.image}
                                     categories={el.categories}
+                                    likes={el.likes}
                                 />
                             </div>
                         ))}

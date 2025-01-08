@@ -1,8 +1,10 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { User } from './User'
+import Like from './LikeButton'
+import CommentLike from './CommentLike'
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, postSlug }) => {
     return (
         <Card className='mt-2'>
             <Card.Body>
@@ -24,22 +26,19 @@ const Comment = ({ comment }) => {
                 </p>
             </Card.Body>
             <Card.Footer>
-                <p className='m-0'>{comment.publishedAt}</p>
 
-                {/* <div className="small d-flex justify-content-start"> */}
-                {/*     <a href="#!" className="d-flex align-items-center me-3"> */}
-                {/*         <i className="far fa-thumbs-up me-2"></i> */}
-                {/*         <p className="mb-0">Like</p> */}
-                {/*     </a> */}
-                {/*     <a href="#!" className="d-flex align-items-center me-3"> */}
-                {/*         <i className="far fa-comment-dots me-2"></i> */}
-                {/*         <p className="mb-0">Comment</p> */}
-                {/*     </a> */}
-                {/*     <a href="#!" className="d-flex align-items-center me-3"> */}
-                {/*         <i className="fas fa-share me-2"></i> */}
-                {/*         <p className="mb-0">Share</p> */}
-                {/*     </a> */}
-                {/* </div> */}
+                <div className="small d-flex justify-content-start">
+                    {/* <a href="#!" className="d-flex align-items-center me-3"> */}
+                    {/*     <i className="far fa-thumbs-up me-2"></i> */}
+                    {/*     <p className="mb-0">Like</p> */}
+                    {/* </a> */}
+                    <CommentLike slug={postSlug} likes={comment.likes} commentId={comment.id} />
+                    <p className='m-0 ms-4'>{comment.publishedAt}</p>
+                    {/* <a href="#!" className="d-flex align-items-center me-3"> */}
+                    {/*     <i className="fas fa-share me-2"></i> */}
+                    {/*     <p className="mb-0">Share</p> */}
+                    {/* </a> */}
+                </div>
             </Card.Footer>
         </Card>
     )

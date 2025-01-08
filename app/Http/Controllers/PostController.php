@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,7 @@ class PostController extends Controller
             $post->author = $post->user;
             $post->categories = $post->categories;
             $post->publishedAt = $post->published_at->diffForHumans();
+            $post->likes = $post->getLikes();
         }
 
         return Inertia::render("Blog/Index", [
@@ -55,6 +57,7 @@ class PostController extends Controller
         foreach ($post->comments as $comment) {
             $comment->author = $comment->user;
             $comment->publishedAt = $comment->created_at->diffForHumans();
+            $comment->likes = $comment->getLikes();
         }
 
         return Inertia::render("Blog/Show", [
@@ -71,6 +74,18 @@ class PostController extends Controller
         $data['user_id'] = Auth::id();
         $data['post_id'] = $post->id;
         Comment::create($data);
+
+        return back();
+    }
+
+    public function like(Post $post)
+    {
+        $user_id = Auth::id();
+        if ($post->hasLiked($post)) {
+            $post->likes()->where([['likeable_id', $post->id], ['user_id', $user_id]])->delete();
+        } else {
+            $post->likes()->create(['user_id' => $user_id]);
+        }
 
         return back();
     }

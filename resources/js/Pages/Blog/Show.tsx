@@ -62,7 +62,7 @@ const blogShow = ({ article }) => {
 
                         <section className="bg-dark p-3 mt-4">
                             {article.comments.map((el, id) => (
-                                <Comment comment={el} />
+                                <Comment postSlug={post.slug} comment={el} />
                             ))}
                             <Card className="py-3 border-0 mt-3" style={{ backgroundColor: "#f8f9fa;" }}>
                                 <Card.Body className="body">
