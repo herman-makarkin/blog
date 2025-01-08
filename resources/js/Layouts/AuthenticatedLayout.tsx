@@ -1,5 +1,6 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Avatar from '@/Components/Avatar';
+import AvatarComponent from '@/Components/AvatarComponent';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
@@ -53,10 +54,11 @@ export default function Authenticated({
                                                 className="inline-flex items-center rounded-md border border-transparent bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out hover:text-gray-700 focus:outline-none dark:bg-gray-800 dark:text-gray-400 dark:hover:text-gray-300"
                                             >
 
-                                                {user.image ?
-                                                    <img className='rounded-circle' src={user.image} style={{ maxWidth: "50px", maxHeight: "50px" }} alt="" />
-                                                    : <Avatar />
-                                                }
+                                                {/* {user.image ? */}
+                                                {/*     <img className='rounded-circle' src={user.image} style={{ maxWidth: "50px", maxHeight: "50px" }} alt="" /> */}
+                                                {/*     : <Avatar /> */}
+                                                {/* } */}
+                                                <AvatarComponent image={user.image} />
                                                 <span className='ms-3'>
                                                     {user.name}
                                                 </span>

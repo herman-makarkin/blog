@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 use function Laravel\Prompts\search;
@@ -48,8 +50,28 @@ class PostController extends Controller
         $post->author = $post->user;
         $post->publishedAt = $post->published_at->diffForHumans();
         $post->categories = $post->categories;
+        $post->comments = $post->comments;
+
+        foreach ($post->comments as $comment) {
+            $comment->author = $comment->user;
+            $comment->publishedAt = $comment->created_at->diffForHumans();
+        }
+
         return Inertia::render("Blog/Show", [
-            'post' => $post,
+            'article' => $post,
         ]);
+    }
+
+    public function store(Post $post, Request $request)
+    {
+        $data = $request->validate([
+            'body' => 'required|max:255',
+        ]);
+
+        $data['user_id'] = Auth::id();
+        $data['post_id'] = $post->id;
+        Comment::create($data);
+
+        return back();
     }
 }
