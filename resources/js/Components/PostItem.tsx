@@ -10,8 +10,8 @@ import { User } from './User';
 const PostComponent = ({ likes, categories, author, slug, title, img, readingTime, body, publishedAt }:
     { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
     return (
-        <Card className='d-flex w-full flex-row bg-transparent border-0'>
-            <Card.Header className="me-3 border-0" style={{ maxWidth: '300px' }}>
+        <Card className='d-flex w-full flex-row border-0'>
+            <Card.Header className="me-3 border-0 bg-transparent p-0" style={{ maxWidth: '300px' }}>
                 <img src={img} className='rounded-5' />
             </Card.Header>
             <Card.Body className=''>
@@ -22,7 +22,7 @@ const PostComponent = ({ likes, categories, author, slug, title, img, readingTim
                 <Link href={route('post.show', slug)} className='h3'>{title}</Link>
                 <p className='mt-2'>{body}</p>
 
-                <Card.Footer className=''>
+                <Card.Footer className=' bg-transparent '>
                     <div className="">
                         {categories.map((category, index) => (
                             <Category text_color={category.text_color} bg_color={category.bg_color} title={category.title} />
