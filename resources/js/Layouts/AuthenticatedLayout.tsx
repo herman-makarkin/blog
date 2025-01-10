@@ -14,7 +14,7 @@ export default function Authenticated({
     const theme = useTheme();
 
     return (
-        <div>
+        <>
             <Navbar
                 className="position-fixed z-3 w-100 bg-body border-bottom pe-3 ps-3"
                 expand="md"
@@ -78,6 +78,7 @@ export default function Authenticated({
                             <NavDropdown.Item>
                                 <Button onClick={theme.toggle}>Toggle</Button>
                             </NavDropdown.Item>
+                            <NavDropdown.Divider />
                             <NavDropdown.Item as="button">
                                 <NavLink
                                     href={route('logout')}
@@ -99,6 +100,6 @@ export default function Authenticated({
             )}
 
             <Container className={containerStyle}>{children}</Container>
-        </div>
+        </>
     );
 }
