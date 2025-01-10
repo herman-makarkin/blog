@@ -1,3 +1,5 @@
+<?php
+
 use Sentry\Laravel\Integration;
 
 public function register(): void

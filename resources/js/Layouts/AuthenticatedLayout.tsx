@@ -46,12 +46,12 @@ export default function Authenticated({
                             >
                                 Blogs
                             </NavLink>
-                            {/* <NavLink */}
-                            {/*     href={route('task.index')} */}
-                            {/*     active={route().current('task.index')} */}
-                            {/* > */}
-                            {/*     Tasks */}
-                            {/* </NavLink> */}
+                            <NavLink
+                                href={route('post.myblogs')}
+                                active={route().current('post.myblogs')}
+                            >
+                                my blogs
+                            </NavLink>
                             {/* <NavLink */}
                             {/*     href={route('user.index')} */}
                             {/*     active={route().current('user.index')} */}

@@ -21,6 +21,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::get('/blog', [PostController::class, 'index'])->name('post.index');
+    Route::get('/myblogs', [PostController::class, 'myblogs'])->name('post.myblogs');
     Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('post.show');
     Route::post('/blog/{post:slug}', [PostController::class, 'store'])->name('post.store');
     Route::get('/blog/{post:slug}/like', [PostController::class, 'like'])->name('post.like');
