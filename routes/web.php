@@ -35,4 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/error', function () {
+    throw new Exception('My first GlitchTip error!');
+});
+
 require __DIR__.'/auth.php';
