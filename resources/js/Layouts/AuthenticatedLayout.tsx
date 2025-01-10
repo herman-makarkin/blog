@@ -75,7 +75,7 @@ export default function Authenticated({
                             <NavDropdown.Item href={route('profile.edit')}>
                                 Profile
                             </NavDropdown.Item>
-                            <NavDropdown.Item>
+                            <NavDropdown.Item as='button'>
                                 <Button onClick={theme.toggle}>Toggle</Button>
                             </NavDropdown.Item>
                             <NavDropdown.Divider />

@@ -30,15 +30,15 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request, User $user): RedirectResponse
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        // $request->user()->fill($request->validated());
-        $data = $request->validated();
+        $request->user()->fill($request->validated());
+        $data = $request->user();
         $image = $data['image'] ?? null;
 
         if ($image) {
-            if ($user->image) {
-                Storage::disk('public')->delete($user->image);
+            if (Auth::user()->image) {
+                Storage::disk('public')->delete(Auth::user()->image);
             }
             $data['image'] = $image->store('project/' . Str::random(), 'public');
         }
@@ -47,10 +47,30 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
         //
-        // $request->user()->save();
-        $user->update($data);
+        // $user->update($data);
+        $request->user()->save();
+        dump($request->user());
 
-        return Redirect::route('profile.edit');
+        return back();
+    }
+
+    public function updateAvatar(Request $request): RedirectResponse
+    {
+        if (Auth::user()->image) {
+            Storage::disk('public')->delete(Auth::user()->image);
+        }
+        $request->validate([
+            'image' => 'nullable|image|max:2048',
+        ]);
+        $image = $request->image ? $request->image->store('user/' . Str::random(), 'public') : null;
+
+        $request->user()->image = $image;
+
+        $request->user()->save();
+        dd($request->user());
+
+
+        return back();
     }
 
     /**
