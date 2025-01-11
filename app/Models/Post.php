@@ -21,6 +21,15 @@ class Post extends Model
         'published_at' => 'datetime',
     ];
 
+    protected $fillable = [
+        'body',
+        'title',
+        'slug',
+        'image',
+        'user_id',
+    ];
+
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class);
@@ -66,9 +75,9 @@ class Post extends Model
         return ($minutes < 1) ? 1 : $minutes;
     }
 
-    public function hasLiked(Post $post)
+    public function hasLiked(Post $post, int $user_id)
     {
-        return $this->likes()->where('likeable_id', $this->id)->exists();
+        return $this->likes()->where([['likeable_id', $this->id], ['user_id', $user_id]])->exists();
     }
 
     public function getThumbnailUrl()

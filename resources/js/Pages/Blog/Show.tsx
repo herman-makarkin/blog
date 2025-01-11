@@ -20,7 +20,6 @@ const blogShow = ({ article }) => {
     const onSubmit: FormEventHandler = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
-        console.log('hello submit', data);
         e.preventDefault();
         post(route('post.store', article.slug), { preserveScroll: true });
     };

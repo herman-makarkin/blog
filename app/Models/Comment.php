@@ -30,8 +30,8 @@ class Comment extends Model
         return $this->likes()->count();
     }
 
-    public function hasLiked(Comment $comment)
+    public function hasLiked(Comment $comment, int $user_id)
     {
-        return $this->likes()->where('likeable_id', $this->id)->exists();
+        return $this->likes()->where([['likeable_id', $this->id], ['user_id', $user_id]])->exists();
     }
 }

@@ -6,8 +6,10 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 use function Laravel\Prompts\search;
@@ -65,24 +67,34 @@ class PostController extends Controller
         ]);
     }
 
-    public function store(Post $post, Request $request)
+    public function create()
+    {
+        return inertia(("Blog/Create"));
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
+            'image' => 'nullable|image|max:2048',
+            'title' => 'required|max:255',
+            'slug' => 'required|max:30',
             'body' => 'required|max:255',
         ]);
 
+        $image = $request->image ? $request->image->store('user/' . Str::random(), 'public') : null;
         $data['user_id'] = Auth::id();
-        $data['post_id'] = $post->id;
-        Comment::create($data);
+        $data['image'] = $image;
 
-        return back();
+        $post = Post::create($data);
+
+        return Redirect::to('/dashboard');
     }
 
     public function like(Post $post)
     {
         $user_id = Auth::id();
-        if ($post->hasLiked($post)) {
-            $post->likes()->where([['likeable_id', $post->id], ['user_id', $user_id]])->delete();
+        if ($post->hasLiked($post, $user_id)) {
+            $post->likes()->where('user_id', $user_id)->delete();
         } else {
             $post->likes()->create(['user_id' => $user_id]);
         }

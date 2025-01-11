@@ -94,8 +94,13 @@ export default function Authenticated({
             </Navbar>
 
             {header && (
-                <header className="mb-4 pt-5 shadow">
-                    <div className="w-100 container mt-5 pb-4">{header}</div>
+                <header className=" mb-4 pt-5 shadow">
+                    <div className="d-flex justify-between d-flex container">
+                        <div className="mt-5 pb-4 text-primary">{header}</div>
+                        <div className="mt-5">
+                            <Link href={route('post.create')} className='btn btn-success'>new blog</Link>
+                        </div>
+                    </div>
                 </header>
             )}
 

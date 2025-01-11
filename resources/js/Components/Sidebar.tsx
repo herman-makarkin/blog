@@ -9,7 +9,6 @@ const Sidebar = ({ searchChanged, categories }) => {
         console.log(value);
         search = value;
     }
-    console.log(categories);
 
     return (
         <div>
