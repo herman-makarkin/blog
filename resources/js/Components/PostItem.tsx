@@ -1,14 +1,34 @@
 import React from 'react'
 import { Button, Card } from 'react-bootstrap';
 import { Heart } from 'lucide-react';
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import Category from './Category';
 import Like from './LikeButton';
 import Avatar from './Avatar';
 import { User } from './User';
+import { category, user } from '@/props';
 
-const PostComponent = ({ likes, categories, author, slug, title, img, readingTime, body, publishedAt }:
-    { publishedAt: string, readingTime: number, title: string, img: string, body: string }) => {
+interface Props {
+    userItem: boolean,
+    likes: number,
+    categories: category[],
+    author: user,
+    img: string,
+    readingTime: number,
+    body: string,
+    publishedAt: string,
+    slug: string,
+    title: string,
+}
+
+const PostComponent = ({ userItem = false, likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
+
+    const removePost = (): void => {
+        if (window.confirm('Are you sure you want to remove this post?')) {
+            router.delete(route('post.destroy', slug));
+        }
+        return;
+    };
     return (
         <Card className='d-flex w-full flex-row border-0'>
             <Card.Header className="me-3 border-0 bg-transparent p-0" style={{ maxWidth: '300px' }}>
@@ -32,6 +52,10 @@ const PostComponent = ({ likes, categories, author, slug, title, img, readingTim
                         <p>{readingTime} min read</p>
                         <Like slug={slug} likes={likes} />
                     </div>
+                    {userItem ? (<>
+                        <Button variant="danger" onClick={removePost}>Delete</Button>
+                        <Link className="btn btn-success ms-3">Edit</Link>
+                    </>) : <></>}
                 </Card.Footer>
             </Card.Body>
         </Card>

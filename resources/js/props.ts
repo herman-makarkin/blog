@@ -8,3 +8,14 @@ export interface LinkProps {
     dangerouslySetInnerHTML?: { __html: string };
 }
 
+export type category = {
+    backgroundColor: string,
+    color: string,
+    title: string,
+}
+
+export type user = {
+    name: number,
+    image: string,
+}
+

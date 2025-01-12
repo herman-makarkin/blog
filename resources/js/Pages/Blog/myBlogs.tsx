@@ -42,24 +42,32 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                                 <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text="Oldest" mode='asc' />
                             </li>
                         </ul>
-                        {posts.data.map((el, id) => (
-                            <div className="mt-4" key={id}>
-                                <PostItem
-                                    slug={el.slug}
-                                    readingTime={el.readingTime}
-                                    author={el.author}
-                                    title={el.title}
-                                    publishedAt={el.publishedAt}
-                                    body={el.body} img={el.image}
-                                    categories={el.categories}
-                                    likes={el.likes}
-                                />
-                            </div>
-                        ))}
+                        {posts.data.length ? (
+                            <>
+                                {posts.data.map((el, id) => (
+                                    <div className="mt-4" key={id}>
+                                        <PostItem
+                                            userItem={true}
+                                            slug={el.slug}
+                                            readingTime={el.readingTime}
+                                            author={el.author}
+                                            title={el.title}
+                                            publishedAt={el.publishedAt}
+                                            body={el.body} img={el.image}
+                                            categories={el.categories}
+                                            likes={el.likes}
+                                        />
+                                    </div>
+                                ))
+                                }
+                            </>
+                        ) : (<h2 className='text-center mt-5'>You have no posts</h2>)}
 
-                        <div className="d-flex flex-column justify-content-center align-items-center mt-3">
-                            <Pagination links={posts.links} />
-                        </div>
+                        {posts.links.length > 3 ? (
+                            <div className="d-flex flex-column justify-content-center align-items-center mt-3">
+                                <Pagination links={posts.links} />
+                            </div>
+                        ) : <></>}
                     </div>
                     <div className="col-3">
                         <Sidebar categories={categories} searchChanged={searchChanged} />

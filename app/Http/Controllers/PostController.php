@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 use function Laravel\Prompts\search;
@@ -128,10 +129,22 @@ class PostController extends Controller
             $post->likes = $post->getLikes();
         }
 
-        return Inertia::render("Blog/Index", [
+        return Inertia::render("Blog/myBlogs", [
             'posts' => $posts,
             'queryParams' => request()->query() ?: null,
             'categories' => $categories,
         ]);
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->likes()->delete();
+        Comment::where('post_id', $post->id)->delete();
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+        $post->delete();
+
+        return back();
     }
 }
