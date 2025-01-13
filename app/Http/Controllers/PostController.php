@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 use function Laravel\Prompts\search;
 
@@ -82,7 +84,7 @@ class PostController extends Controller
             'body' => 'required|max:255',
         ]);
 
-        $image = $request->image ? $request->image->store('user/' . Str::random(), 'public') : null;
+        $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
         $data['user_id'] = Auth::id();
         $data['image'] = $image;
 
@@ -146,5 +148,38 @@ class PostController extends Controller
         $post->delete();
 
         return back();
+    }
+
+    public function edit(Post $post)
+    {
+        // dd(new PostResource($post));
+        return Inertia('Blog/Edit', [
+            'article' => $post,
+        ]);
+    }
+
+
+    public function update(Request $request, Post $post)
+    {
+        // dd($post);
+        $data = $request->validate(
+            [
+            'image' => 'nullable|image|max:2048',
+            'title' => 'required|max:255',
+            'slug' => 'required|max:30',
+            'body' => 'required|max:255',
+            ]
+        );
+
+        $image = $data['image'] ?? null;
+        if ($image) {
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $data['image'] = $image->store('post/' . Str::random(), 'public');
+        }
+        $post->update($data);
+
+        return to_route('post.myblogs');
     }
 }

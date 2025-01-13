@@ -54,7 +54,7 @@ const PostComponent = ({ userItem = false, likes, categories, author, slug, titl
                     </div>
                     {userItem ? (<>
                         <Button variant="danger" onClick={removePost}>Delete</Button>
-                        <Link className="btn btn-success ms-3">Edit</Link>
+                        <Link href={route('post.edit', slug)} className="btn btn-success ms-3">Edit</Link>
                     </>) : <></>}
                 </Card.Footer>
             </Card.Body>
