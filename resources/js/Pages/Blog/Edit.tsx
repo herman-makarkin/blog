@@ -6,21 +6,23 @@ import TextInput from '@/Components/TextInput';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 const Edit = ({ article }) => {
     const { data, setData, post, errors } = useForm({
         image: article.image || '',
         title: article.title || '',
+        state: article.state || state,
         slug: article.slug || '',
         // status: post.status || '',
         body: article.body || '',
         // deadline: post.deadline || '',
     });
 
-    const onSubmit: FormEventHandler = (e) => {
+    const onSubmit: FormEventHandler = (e, state: string) => {
         e.preventDefault();
-        post(route('post.update', article.slug));
+        data.state = state,
+            post(route('post.update', article.slug));
     };
     return (
         <Authenticated
@@ -30,7 +32,7 @@ const Edit = ({ article }) => {
                 </h2>
             }
         >
-            <Form onSubmit={onSubmit} className="rounded p-4 shadow">
+            <Form className="rounded p-4 shadow">
                 {article.image && (
                     <div style={{ maxWidth: 500 }}>
                         <img src={article.image} alt="" />
@@ -90,11 +92,23 @@ const Edit = ({ article }) => {
                     <InputError message={errors.body} />
                 </Form.Group>
                 <Form.Group className="d-flex mt-4 flex-row-reverse">
-                    <input
-                        type="submit"
-                        className="btn btn-success ms-3"
-                        value="Submit"
-                    />
+                    <Button
+                        variant="success"
+                        className='ms-3'
+                        onClick={(e) => {
+                            // state = 'published';
+                            // console.log(data);
+                            // setData('state', state);
+                            // console.log(data);
+                            onSubmit(e, 'published');
+                            // onSubmit(e);
+                        }}
+                    >Publish</Button>
+                    <Button variant='primary ms-3' onClick={(e) => {
+                        onSubmit(e, 'draft');
+                    }}>
+                        Draft
+                    </Button>
                     <Link
                         href={route('post.myblogs')}
                         className="btn btn-danger"

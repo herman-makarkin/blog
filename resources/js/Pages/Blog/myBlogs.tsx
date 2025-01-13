@@ -12,12 +12,12 @@ const blogIndex = ({ posts, queryParams, categories }) => {
 
     const sortChanged = (sort: string): void => {
         queryParams['sort_mode'] = sort;
-        router.get(route('post.index'), queryParams);
+        router.get(route('post.myblogs'), queryParams);
     };
 
     const searchChanged = (search: string): void => {
         queryParams['search'] = search;
-        router.get(route('post.index'), queryParams);
+        router.get(route('post.myblogs'), queryParams);
     };
 
     return (
@@ -48,6 +48,7 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                                     <div className="mt-4" key={id}>
                                         <PostItem
                                             userItem={true}
+                                            state={el.state}
                                             slug={el.slug}
                                             readingTime={el.readingTime}
                                             author={el.author}

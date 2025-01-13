@@ -11,14 +11,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\ModelStates\HasStates;
+use App\States\Post\PostState;
 
 class Post extends Model
 {
     //
     use HasFactory;
+    use HasStates;
 
     protected $casts = [
         'published_at' => 'datetime',
+        'state' => PostState::class,
     ];
 
     protected $fillable = [
@@ -27,6 +31,7 @@ class Post extends Model
         'slug',
         'image',
         'user_id',
+        'state',
     ];
 
 
@@ -47,7 +52,7 @@ class Post extends Model
 
     public function scopePublished($query)
     {
-        $query->where('published_at', "<=", Carbon::now());
+        $query->where('state', 'published');
     }
 
     public function scopeFeatured($query)

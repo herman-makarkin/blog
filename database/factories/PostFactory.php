@@ -24,6 +24,7 @@ class PostFactory extends Factory
             'image' => $this->faker->imageUrl(),
             'body' => $this->faker->paragraph(10),
             'published_at' => $this->faker->dateTimeBetween('-2 weeks', 'now'),
+            'state' => 'published',
             'featured' => $this->faker->boolean(10),
         ];
     }

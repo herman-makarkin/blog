@@ -7,13 +7,17 @@ use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
+use App\States\Post\Draft;
+use App\States\Post\Published;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use App\States\Post\PostState;
 
 use function Laravel\Prompts\search;
 
@@ -65,9 +69,12 @@ class PostController extends Controller
             $comment->likes = $comment->getLikes();
         }
 
-        return Inertia::render("Blog/Show", [
+        return Inertia::render(
+            "Blog/Show",
+            [
             'article' => $post,
-        ]);
+            ]
+        );
     }
 
     public function create()
@@ -77,12 +84,15 @@ class PostController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $data = $request->validate([
+        $data = $request->validate(
+            [
             'image' => 'nullable|image|max:2048',
             'title' => 'required|max:255',
             'slug' => 'required|max:30',
             'body' => 'required|max:255',
-        ]);
+            'state' => Rule::in(['published', 'draft']),
+            ]
+        );
 
         $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
         $data['user_id'] = Auth::id();
@@ -116,7 +126,7 @@ class PostController extends Controller
             $posts = Post::where('user_id', Auth::id());
         }
 
-        $posts = $posts->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
+        $posts = $posts->orderBy('updated_at', $sortMode)->paginate(5)->onEachSide(1);
         $categories = Category::whereHas('posts', function ($query) {
             $query->published();
         })->take(10)->get();
@@ -153,15 +163,17 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         // dd(new PostResource($post));
-        return Inertia('Blog/Edit', [
+        return Inertia(
+            'Blog/Edit',
+            [
             'article' => $post,
-        ]);
+            ]
+        );
     }
 
 
     public function update(Request $request, Post $post)
     {
-        // dd($post);
         $data = $request->validate(
             [
             'image' => 'nullable|image|max:2048',
@@ -170,6 +182,13 @@ class PostController extends Controller
             'body' => 'required|max:255',
             ]
         );
+
+        if ($request->input('state') == 'published' && $post->state != 'published') {
+            $post->state->transitionTo(Published::class);
+            $data['published_at'] = now();
+        } elseif ($request->input('state') == 'draft' && $post->state != 'draft') {
+            $post->state->transitionTo(Draft::class);
+        }
 
         $image = $data['image'] ?? null;
         if ($image) {

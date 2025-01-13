@@ -19,6 +19,8 @@ return new class () extends Migration {
             $table->string('slug')->unique();
             $table->text('body');
 
+            $table->string('state');
+
             $table->timestamp('published_at')->nullable()->default(now());
             $table->boolean('featured')->default(false);
 

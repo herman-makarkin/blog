@@ -19,9 +19,10 @@ interface Props {
     publishedAt: string,
     slug: string,
     title: string,
+    state: string,
 }
 
-const PostComponent = ({ userItem = false, likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
+const PostComponent = ({ userItem = false, state = 'published', likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
 
     const removePost = (): void => {
         if (window.confirm('Are you sure you want to remove this post?')) {
@@ -53,6 +54,7 @@ const PostComponent = ({ userItem = false, likes, categories, author, slug, titl
                         <Like slug={slug} likes={likes} />
                     </div>
                     {userItem ? (<>
+                        {state && <p className='text-muted mt-2'>{state}</p>}
                         <Button variant="danger" onClick={removePost}>Delete</Button>
                         <Link href={route('post.edit', slug)} className="btn btn-success ms-3">Edit</Link>
                     </>) : <></>}

@@ -5,7 +5,7 @@ import TextInput from '@/Components/TextInput';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import { Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 interface FormProps {
     image: File | undefined;
@@ -13,6 +13,7 @@ interface FormProps {
     slug: string;
     // status: string;
     body: string;
+    state: string;
     // deadline: string;
 }
 
@@ -22,13 +23,15 @@ const Create = () => {
         title: '',
         slug: '',
         body: '',
+        state: '',
         _method: 'POST',
     });
 
     const onSubmit: FormEventHandler = (
-        e: React.ChangeEvent<HTMLInputElement>,
+        e: React.ChangeEvent<HTMLInputElement>, state: string
     ) => {
         e.preventDefault();
+        data.state = state;
         post(route('post.store'));
     };
 
@@ -93,13 +96,25 @@ const Create = () => {
                     <InputError message={errors.body} />
                 </Form.Group>
                 <Form.Group className="d-flex mt-4 flex-row-reverse">
-                    <input
-                        type="submit"
-                        className="btn btn-success ms-3"
-                        value="Submit"
-                    />
+                    <Button
+                        variant="success"
+                        className='ms-3'
+                        onClick={(e) => {
+                            // state = 'published';
+                            // console.log(data);
+                            // setData('state', state);
+                            // console.log(data);
+                            onSubmit(e, 'published');
+                            // onSubmit(e);
+                        }}
+                    >Publish</Button>
+                    <Button variant='primary ms-3' onClick={(e) => {
+                        onSubmit(e, 'draft');
+                    }}>
+                        Draft
+                    </Button>
                     <Link
-                        href={route('dashboard')}
+                        href={route('post.myblogs')}
                         className="btn btn-danger"
                     >
                         Cancel
