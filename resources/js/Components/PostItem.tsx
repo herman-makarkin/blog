@@ -41,7 +41,7 @@ const PostComponent = ({ userItem = false, state = 'published', likes, categorie
                     <span className='ms-5'>{publishedAt}</span>
                 </div>
                 <Link href={route('post.show', slug)} className='h3'>{title}</Link>
-                <p className='mt-2'>{body}</p>
+                <p className='mt-2' style={{ maxWidth: 500 }} >{body}</p>
 
                 <Card.Footer className=' bg-transparent '>
                     <div className="">
@@ -50,7 +50,7 @@ const PostComponent = ({ userItem = false, state = 'published', likes, categorie
                         ))}
                     </div>
                     <div className=" d-flex justify-content-between">
-                        <p style={{ whiteSpace: 'pre-line' }}>{readingTime} min read</p>
+                        <p>{readingTime} min read</p>
                         {usePage().props.auth.user ? (
                             <Like slug={slug} likes={likes} />
                         ) : (
