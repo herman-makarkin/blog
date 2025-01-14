@@ -3,6 +3,7 @@ import { Head } from '@inertiajs/react';
 import { Button } from 'react-bootstrap'
 import Welcome from './Welcome';
 import PostComponent from '@/Components/PostComponent';
+import { Post } from '@/types';
 
 export default function Dashboard({ featuredPosts, latestPosts }) {
 
@@ -34,7 +35,7 @@ export default function Dashboard({ featuredPosts, latestPosts }) {
                 <div className='w-full mt-5'>
                     <h2>Latest Posts</h2>
                     <div className="row d-flex flex-row flex-wrap">
-                        {latestPosts.map(el => (
+                        {latestPosts.map((el: Post) => (
                             <div className="col-lg-4 col-md-6 mt-3">
                                 <PostComponent slug={el.slug} title={el.title} publishedAt={el.publishedAt} description={el.body} img={el.image} categories={el.categories}></PostComponent>
                             </div>

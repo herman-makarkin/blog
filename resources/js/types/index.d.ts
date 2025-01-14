@@ -4,6 +4,10 @@ import { Config } from 'ziggy-js';
 export interface Post {
     id?: number;
     title: string;
+    image: string;
+    likes: number;
+    author: User;
+    readingTime: number
     body: string;
     slug: string;
     categories: Category[],
@@ -22,6 +26,7 @@ export type CategoryT = {
 export interface User {
     id: number;
     name: string;
+    image: string;
     email: string;
     email_verified_at?: string;
 }

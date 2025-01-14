@@ -1,24 +1,20 @@
 import React from 'react'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import { Head, Link, router, usePage } from '@inertiajs/react';
 import Sidebar from '@/Components/Sidebar';
 import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
 import Tab from '@/Components/Tab';
-import { Category, Post } from '@/types';
-
-interface queryParams {
-    sort_mode: string,
-    search: string,
-    category: string,
-}
+import { CategoryT, Post } from '@/types';
+import { LinkProps } from '@/props';
 
 interface data {
-    post: Post[]
+    data: Post[];
+    links: LinkProps;
 }
 
-const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParams: queryParams, categories: Category[] }) => {
+const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParams: any, categories: CategoryT[] }) => {
     queryParams = queryParams || {};
 
     const sortChanged = (sort: string): void => {
@@ -70,7 +66,7 @@ const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParam
                         </ul>
                         {posts.data.length ? (
                             <>
-                                {posts.data.map((el, id) => (
+                                {posts.data.map((el: Post, id) => (
                                     <div className="mt-4" key={id}>
                                         <PostItem
                                             slug={el.slug}
@@ -78,7 +74,8 @@ const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParam
                                             author={el.author}
                                             title={el.title}
                                             publishedAt={el.publishedAt}
-                                            body={el.body} img={el.image}
+                                            body={el.body}
+                                            img={el.image}
                                             categories={el.categories}
                                             likes={el.likes}
                                         />

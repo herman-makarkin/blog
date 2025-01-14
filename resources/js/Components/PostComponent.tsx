@@ -6,7 +6,6 @@ import { Link } from '@inertiajs/react'
 
 const PostComponent = ({ title, img, description, slug, publishedAt, categories }:
     { categories: category[], publishedAt: string, slug: string, title: string, img: string, description: string }) => {
-    console.log('slug', slug);
     return (
         <Card className='w-full min-width-300'>
             <Card.Img variant="top" src={img} />

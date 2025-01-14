@@ -7,16 +7,6 @@ const Category = ({ text_color, title, bg_color, user, slug = '' }: {
     slug: string,
     user: boolean
 }) => {
-    //     return (
-    //         { link ? (
-    //             <Link></Link>
-    //         ): <>
-    //
-    //         </>
-    //         }
-    //         <button style={{ color: text_color, backgroundColor: bg_color }} className='me-3 rounded-3 mb-2 pb-1 pt-1 ps-2 pe-2'>{title}</button>
-    //     )
-    // }
     return (
         <>
             {slug !== '' ? (

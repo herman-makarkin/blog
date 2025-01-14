@@ -6,13 +6,13 @@ import Category from './Category';
 import Like from './LikeButton';
 import Avatar from './Avatar';
 import { User } from './User';
-import { category, user } from '@/props';
+import { User as UserT, CategoryT } from '@/types';
 
 interface Props {
     userItem: boolean,
     likes: number,
-    categories: category[],
-    author: user,
+    categories: CategoryT[],
+    author: UserT,
     img: string,
     readingTime: number,
     body: string,
@@ -20,10 +20,9 @@ interface Props {
     slug: string,
     title: string,
     state: string,
-    authorized: boolean,
 }
 
-const PostComponent = ({ userItem = false, authorized, state = 'published', likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
+const PostComponent = ({ userItem = false, state = 'published', likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
 
     const removePost = (): void => {
         if (window.confirm('Are you sure you want to remove this post?')) {
@@ -51,7 +50,7 @@ const PostComponent = ({ userItem = false, authorized, state = 'published', like
                         ))}
                     </div>
                     <div className=" d-flex justify-content-between">
-                        <p>{readingTime} min read</p>
+                        <p style={{ whiteSpace: 'pre-line' }}>{readingTime} min read</p>
                         {usePage().props.auth.user ? (
                             <Like slug={slug} likes={likes} />
                         ) : (

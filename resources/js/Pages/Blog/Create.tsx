@@ -7,6 +7,7 @@ import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 import { Button, Form, Dropdown } from 'react-bootstrap';
+import { CategoryT } from '@/types';
 
 interface FormProps {
     image: File | undefined;
@@ -98,12 +99,12 @@ const Create = ({ categories }) => {
                     <InputError message={errors.body} />
                 </Form.Group>
                 <Form.Group className="mt-3">
-                    {data.categories.map((el, id) => {
+                    {data.categories.map((el: CategoryT, id: number) => {
                         let cat = categories.find((el) => el.id === data.categories[id]);
                         console.log(el, cat);
                         if (cat) {
                             return (
-                                <Category title={cat.title} text_color={cat.text_color} bg_color={cat.bg_color} />
+                                <Category key={id} title={cat.title} text_color={cat.text_color} bg_color={cat.bg_color} />
                             )
                         }
                         return <></>

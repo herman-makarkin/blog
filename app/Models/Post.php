@@ -92,9 +92,11 @@ class Post extends Model
     {
         if (str_contains($this->image, 'http')) {
             return $this->image;
-        };
+        } elseif ($this->image) {
+            return Storage::url($this->image);
+        }
 
-        return Storage::url($this->image);
+        return '';
     }
 
 

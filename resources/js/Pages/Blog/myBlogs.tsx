@@ -6,8 +6,16 @@ import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
 import Tab from '@/Components/Tab';
+import { Post } from '@/types';
+import { LinkProps } from '@/props';
 
-const blogIndex = ({ posts, queryParams, categories }) => {
+interface data {
+    data: Post[];
+    links: LinkProps[];
+}
+const blogIndex = ({ posts, queryParams, categories }: {
+    posts: data
+}) => {
     queryParams = queryParams || {};
 
     const sortChanged = (sort: string): void => {
@@ -61,6 +69,7 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                                 {posts.data.map((el, id) => (
                                     <div className="mt-4" key={id}>
                                         <PostItem
+                                            authorized={true}
                                             userItem={true}
                                             state={el.state}
                                             slug={el.slug}
