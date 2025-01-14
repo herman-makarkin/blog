@@ -18,6 +18,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use App\States\Post\PostState;
+use Spatie\QueryBuilder\QueryBuilder;
 
 use function Laravel\Prompts\search;
 
@@ -133,7 +134,7 @@ class PostController extends Controller
 
         $post->categories()->attach($request->categories);
 
-        return Redirect::to('/dashboard');
+        return Redirect::to('/myblogs');
     }
 
     public function storeComment(Request $request, Post $post): RedirectResponse
@@ -169,15 +170,19 @@ class PostController extends Controller
         $sortMode = request('sort_mode', 'desc');
         $search = request('search', '');
         $category = request('category', '');
+        $state = request('state', '');
 
         if ($search) {
-            $posts = Post::where(['title', 'like', '%' . $search . '%'], ['user_id', Auth::id()]);
+            $posts = QueryBuilder::for(Post::class)->where('title', 'like', '%' . $search . '%')->where('user_id', Auth::id());
         } else {
-            $posts = Post::where('user_id', Auth::id());
+            $posts = QueryBuilder::for(Post::class)->where('user_id', Auth::id());
         }
-
         if ($category) {
             $posts->withCategory($category);
+        }
+
+        if ($state) {
+            $posts->where('state', $state);
         }
 
         $posts = $posts->orderBy('updated_at', $sortMode)->paginate(5)->onEachSide(1);
