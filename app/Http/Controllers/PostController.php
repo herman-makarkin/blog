@@ -17,13 +17,17 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
-use App\States\Post\PostState;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use function Laravel\Prompts\search;
 
 class PostController extends Controller
 {
+    /**
+     * This is the the main Blog page
+     *
+     * @return void
+     */
     public function index()
     {
         $sortMode = request('sort_mode', 'desc');
@@ -73,6 +77,13 @@ class PostController extends Controller
         );
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Post $post the post
+     *
+     * @return void
+     */
     public function show(Post $post)
     {
         $post->author = $post->user;
@@ -96,6 +107,11 @@ class PostController extends Controller
         );
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @return void
+     */
     public function create()
     {
         $categories = Category::all();
@@ -107,6 +123,13 @@ class PostController extends Controller
         );
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Request $request the request
+     *
+     * @return void
+     */
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate(
@@ -137,6 +160,14 @@ class PostController extends Controller
         return Redirect::to('/myblogs');
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Request $request the request
+     * @param Post    $post    is the post
+     *
+     * @return void
+     */
     public function storeComment(Request $request, Post $post): RedirectResponse
     {
         $data = $request->validate(
@@ -153,6 +184,13 @@ class PostController extends Controller
         return back();
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Post $post is the post
+     *
+     * @return void
+     */
     public function like(Post $post)
     {
         $user_id = Auth::id();
@@ -165,6 +203,11 @@ class PostController extends Controller
         return back();
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @return void
+     */
     public function myblogs()
     {
         $sortMode = request('sort_mode', 'desc');
@@ -215,6 +258,13 @@ class PostController extends Controller
         );
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Post $post is the post
+     *
+     * @return void
+     */
     public function destroy(Post $post)
     {
         $post->likes()->delete();
@@ -227,6 +277,13 @@ class PostController extends Controller
         return back();
     }
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Post $post is the post
+     *
+     * @return void
+     */
     public function edit(Post $post)
     {
         $categories = Category::all();
@@ -247,6 +304,14 @@ class PostController extends Controller
     }
 
 
+    /**
+     * This is the the main Blog page
+     *
+     * @param Request $request the request
+     * @param Post    $post    is the post
+     *
+     * @return void
+     */
     public function update(Request $request, Post $post)
     {
         $data = $request->validate(

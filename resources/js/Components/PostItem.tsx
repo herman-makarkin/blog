@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Card } from 'react-bootstrap';
 import { Heart } from 'lucide-react';
-import { Link, router } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import Category from './Category';
 import Like from './LikeButton';
 import Avatar from './Avatar';
@@ -20,9 +20,10 @@ interface Props {
     slug: string,
     title: string,
     state: string,
+    authorized: boolean,
 }
 
-const PostComponent = ({ userItem = false, state = 'published', likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
+const PostComponent = ({ userItem = false, authorized, state = 'published', likes, categories, author, slug, title, img, readingTime, body, publishedAt }: Props) => {
 
     const removePost = (): void => {
         if (window.confirm('Are you sure you want to remove this post?')) {
@@ -51,7 +52,11 @@ const PostComponent = ({ userItem = false, state = 'published', likes, categorie
                     </div>
                     <div className=" d-flex justify-content-between">
                         <p>{readingTime} min read</p>
-                        <Like slug={slug} likes={likes} />
+                        {usePage().props.auth.user ? (
+                            <Like slug={slug} likes={likes} />
+                        ) : (
+                            <Like slug={slug} likes={likes} style={{ pointerEvents: 'none' }} />
+                        )}
                     </div>
                     {userItem ? (<>
                         {state && <p className='text-muted mt-2'>{state}</p>}

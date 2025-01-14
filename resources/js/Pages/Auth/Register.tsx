@@ -30,16 +30,18 @@ export default function Register() {
 
             <Form onSubmit={submit}>
 
-                <div className="input-group mb-3">
+                <div >
+                    <InputLabel htmlFor="customFile" value="Avatar" />
                     <input type="file" className="form-control" id="customFile"
                         onChange={(e) => {
                             if (e.target.files)
                                 return setData('image', e.target.files[0]);
                         }}
                     />
+                    <InputError message={errors.name} className="mt-2" />
                 </div>
 
-                <div>
+                <div className='mt-3'>
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput

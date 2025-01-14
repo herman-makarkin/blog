@@ -46,12 +46,30 @@ export default function Authenticated({
                             >
                                 Blogs
                             </NavLink>
-                            <NavLink
-                                href={route('post.myblogs')}
-                                active={route().current('post.myblogs')}
-                            >
-                                my blogs
-                            </NavLink>
+                            {user && (
+                                <NavLink
+                                    href={route('post.myblogs')}
+                                    active={route().current('post.myblogs')}
+                                >
+                                    my blogs
+                                </NavLink>
+                            )}
+                            {!user && (
+                                <>
+                                    <NavLink
+                                        href={route('register')}
+                                        active={route().current('register')}
+                                    >
+                                        register
+                                    </NavLink>
+                                    <NavLink
+                                        href={route('login')}
+                                        active={route().current('login')}
+                                    >
+                                        login
+                                    </NavLink>
+                                </>
+                            )}
                             {/* <NavLink */}
                             {/*     href={route('user.index')} */}
                             {/*     active={route().current('user.index')} */}
@@ -65,30 +83,48 @@ export default function Authenticated({
                             {/*     My Tasks */}
                             {/* </NavLink> */}
                         </Nav>
+                        {user && (
 
-                        <NavDropdown
-                            title={user.name}
-                            id="basic-nav-dropdown"
-                            role="button"
-                            className="mt-md-0 mt-2"
-                        >
-                            <NavDropdown.Item href={route('profile.edit')}>
-                                Profile
-                            </NavDropdown.Item>
-                            <NavDropdown.Item as='button'>
-                                <Button onClick={theme.toggle}>Toggle theme</Button>
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item as="button">
-                                <NavLink
-                                    href={route('logout')}
-                                    active={route().current('/')}
-                                    method="post"
-                                >
-                                    Log Out
-                                </NavLink>
-                            </NavDropdown.Item>
-                        </NavDropdown>
+                            <NavDropdown
+                                title={user.name}
+                                id="basic-nav-dropdown"
+                                role="button"
+                                className="mt-md-0 mt-2"
+                            >
+                                <NavDropdown.Item href={route('profile.edit')}>
+                                    Profile
+                                </NavDropdown.Item>
+                                <NavDropdown.Item as='button'>
+                                    <Button onClick={theme.toggle}>Toggle theme</Button>
+                                </NavDropdown.Item>
+                                <NavDropdown.Divider />
+                                <NavDropdown.Item as="button">
+                                    <NavLink
+                                        href={route('logout')}
+                                        active={route().current('/')}
+                                        method="post"
+                                    >
+                                        Log Out
+                                    </NavLink>
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        )}
+                        {/* <> */}
+                        {/*     <Link */}
+                        {/*         href={route('login')} */}
+                        {/*         className="text-primary me-3" */}
+                        {/*     > */}
+                        {/*         Log in */}
+                        {/*     </Link> */}
+                        {/*     <Link */}
+                        {/*         href={route('register')} */}
+                        {/*         className="text-primary" */}
+                        {/*     > */}
+                        {/*         Register */}
+                        {/*     </Link> */}
+                        {/* </> */}
+                        {/* )} */}
+
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -97,9 +133,12 @@ export default function Authenticated({
                 <header className=" mb-4 pt-5 shadow">
                     <div className="d-flex justify-between d-flex container">
                         <div className="mt-5 pb-4 text-primary">{header}</div>
-                        <div className="mt-5">
-                            <Link href={route('post.create')} className='btn btn-success'>new blog</Link>
-                        </div>
+
+                        {user && (
+                            <div className="mt-5">
+                                <Link href={route('post.create')} className='btn btn-success'>new blog</Link>
+                            </div>
+                        )}
                     </div>
                 </header>
             )}

@@ -8,23 +8,25 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get(
-    '/', function () {
-        return Inertia::render(
-            'Welcome', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
-            ]
-        );
-    }
-);
+// Route::get(
+//     '/',
+//     function () {
+//         return Inertia::render(
+//             'Welcome',
+//             [
+//             'canLogin' => Route::has('login'),
+//             'canRegister' => Route::has('register'),
+//             'laravelVersion' => Application::VERSION,
+//             'phpVersion' => PHP_VERSION,
+//             ]
+//         );
+//     }
+// );
 
 
-Route::middleware(['auth', 'verified'])->group(
+Route::middleware([])->group(
     function () {
-        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/', DashboardController::class)->name('dashboard');
         Route::get('/blog', [PostController::class, 'index'])->name('post.index');
         Route::get('/myblogs', [PostController::class, 'myblogs'])->name('post.myblogs');
         Route::get('/blog/{post:slug}', [PostController::class, 'show'])->name('post.show');
@@ -51,7 +53,8 @@ Route::middleware('auth')->group(
 );
 
 Route::get(
-    '/error', function () {
+    '/error',
+    function () {
         throw new Exception('My first GlitchTip error!');
     }
 );

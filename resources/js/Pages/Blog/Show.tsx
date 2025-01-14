@@ -19,6 +19,8 @@ const blogShow = ({ article }: { article: Post }) => {
         _method: 'POST',
     });
 
+    const user = usePage().props.auth.user;
+
     const onSubmit: FormEventHandler = (
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
@@ -48,7 +50,11 @@ const blogShow = ({ article }: { article: Post }) => {
                             <span className='ms-5'>{article.publishedAt}</span>
                         </div>
                         <p className='mt-2'>{article.body}</p>
-                        <Like slug={article.slug} likes={article.likes} />
+                        {user ? (
+                            <Like slug={article.slug} likes={article.likes} />
+                        ) : (
+                            <Like slug={article.slug} likes={article.likes} style={{ pointerEvents: 'none' }} />
+                        )}
                         <div className="mt-3">
                             {article.categories.map((el, id) => (
                                 <Category key={id} title={el.title} bg_color={el.bg_color} text_color={el.text_color} />
@@ -59,20 +65,29 @@ const blogShow = ({ article }: { article: Post }) => {
                             {article.comments.map((el, id) => (
                                 <Comment postSlug={post.slug} comment={el} />
                             ))}
-                            <Card className="py-3 border-0 mt-3" style={{ backgroundColor: "#f8f9fa;" }}>
-                                <Card.Body className="body">
-                                    <div className="d-flex flex-start w-100">
-                                        <AvatarComponent image={usePage().props.auth.user.image} />
-                                        <div data-mdb-input-init className="form-outline w-100 ms-2">
-                                            <textarea onChange={(e) => setData('body', e.target.value)} className="form-control" id="textAreaExample" rows={4}></textarea>
-                                            <label className="form-label" htmlFor="textAreaExample">Message</label>
+                            {user ? (
+
+                                <Card className="py-3 border-0 mt-3" style={{ backgroundColor: "#f8f9fa;" }}>
+                                    <Card.Body className="body">
+                                        <div className="d-flex flex-start w-100">
+                                            <AvatarComponent image={user.image} />
+                                            <div data-mdb-input-init className="form-outline w-100 ms-2">
+                                                <textarea onChange={(e) => setData('body', e.target.value)} className="form-control" id="textAreaExample" rows={4}></textarea>
+                                                <label className="form-label" htmlFor="textAreaExample">Message</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="float-end mt-2 pt-1">
-                                        <Button onClick={onSubmit} type="button" data-mdb-button-init data-mdb-ripple-init className="ms-3">Post comment</Button>
-                                    </div>
-                                </Card.Body>
-                            </Card>
+                                        <div className="float-end mt-2 pt-1">
+                                            <Button onClick={onSubmit} type="button" data-mdb-button-init data-mdb-ripple-init className="ms-3">Post comment</Button>
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+
+
+                            ) : (
+
+                                <h4>In order to submit comments you have to login</h4>
+
+                            )}
 
                         </section>
 
