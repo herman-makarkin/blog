@@ -13,7 +13,6 @@ const Sidebar = ({ stateChanged = false, reset, searchChanged, categories, user 
 }) => {
     let search = '';
     const setSearch = (value) => {
-        console.log(value);
         search = value;
     }
 

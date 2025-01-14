@@ -37,8 +37,6 @@ const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParam
         router.get(route('post.index'), queryParams);
     }
 
-    console.log(categories);
-
     return (
         <AuthenticatedLayout
             header={

@@ -38,8 +38,6 @@ const Create = ({ categories }) => {
         post(route('post.store'));
     };
 
-    console.log(categories);
-
     return (
         <Authenticated
             header={<h2 className="text-gray fs-3">Create new blog</h2>}
@@ -101,7 +99,6 @@ const Create = ({ categories }) => {
                 <Form.Group className="mt-3">
                     {data.categories.map((el: CategoryT, id: number) => {
                         let cat = categories.find((el) => el.id === data.categories[id]);
-                        console.log(el, cat);
                         if (cat) {
                             return (
                                 <Category key={id} title={cat.title} text_color={cat.text_color} bg_color={cat.bg_color} />
@@ -139,12 +136,7 @@ const Create = ({ categories }) => {
                         variant="success"
                         className='ms-3'
                         onClick={(e) => {
-                            // state = 'published';
-                            // console.log(data);
-                            // setData('state', state);
-                            // console.log(data);
                             onSubmit(e, 'published');
-                            // onSubmit(e);
                         }}
                     >Publish</Button>
                     <Button variant='primary ms-3' onClick={(e) => {

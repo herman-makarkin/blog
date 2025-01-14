@@ -23,8 +23,6 @@ const Edit = ({ article, categories, catIds }) => {
         // deadline: post.deadline || '',
     });
 
-    console.log(article, catIds, 'penis2');
-
     const onSubmit: FormEventHandler = (e, state: string) => {
         e.preventDefault();
         data.state = state;
@@ -143,12 +141,7 @@ const Edit = ({ article, categories, catIds }) => {
                         variant="success"
                         className='ms-3'
                         onClick={(e) => {
-                            // state = 'published';
-                            // console.log(data);
-                            // setData('state', state);
-                            // console.log(data);
                             onSubmit(e, 'published');
-                            // onSubmit(e);
                         }}
                     >Publish</Button>
                     <Button variant='primary ms-3' onClick={(e) => {

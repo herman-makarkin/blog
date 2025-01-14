@@ -23,12 +23,8 @@ export default function Edit({
 
     const onSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        console.log(data);
-
         post(route('profile.updateAvatar'));
     };
-
-    console.log(user.image, 'image!!!!');
 
     return (
         <AuthenticatedLayout

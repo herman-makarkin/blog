@@ -308,6 +308,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $post->image = $post->getThumbnailUrl();
         $categories = Category::all();
         $ids = [];
 
