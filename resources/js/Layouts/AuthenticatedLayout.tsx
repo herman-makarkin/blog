@@ -70,18 +70,9 @@ export default function Authenticated({
                                     </NavLink>
                                 </>
                             )}
-                            {/* <NavLink */}
-                            {/*     href={route('user.index')} */}
-                            {/*     active={route().current('user.index')} */}
-                            {/* > */}
-                            {/*     Users */}
-                            {/* </NavLink> */}
-                            {/* <NavLink */}
-                            {/*     href={route('task.myTasks')} */}
-                            {/*     active={route().current('task.myTasks')} */}
-                            {/* > */}
-                            {/*     My Tasks */}
-                            {/* </NavLink> */}
+                            <Nav.Item className='d-flex align-items-center'>
+                                <Button size='sm' onClick={theme.toggle}>Toggle theme</Button>
+                            </Nav.Item>
                         </Nav>
                         {user && (
 
@@ -94,9 +85,9 @@ export default function Authenticated({
                                 <NavDropdown.Item href={route('profile.edit')}>
                                     Profile
                                 </NavDropdown.Item>
-                                <NavDropdown.Item as='button'>
-                                    <Button onClick={theme.toggle}>Toggle theme</Button>
-                                </NavDropdown.Item>
+                                {/* <NavDropdown.Item as='button'> */}
+                                {/*     <Button onClick={theme.toggle}>Toggle theme</Button> */}
+                                {/* </NavDropdown.Item> */}
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item as="button">
                                     <NavLink
@@ -109,21 +100,6 @@ export default function Authenticated({
                                 </NavDropdown.Item>
                             </NavDropdown>
                         )}
-                        {/* <> */}
-                        {/*     <Link */}
-                        {/*         href={route('login')} */}
-                        {/*         className="text-primary me-3" */}
-                        {/*     > */}
-                        {/*         Log in */}
-                        {/*     </Link> */}
-                        {/*     <Link */}
-                        {/*         href={route('register')} */}
-                        {/*         className="text-primary" */}
-                        {/*     > */}
-                        {/*         Register */}
-                        {/*     </Link> */}
-                        {/* </> */}
-                        {/* )} */}
 
                     </Navbar.Collapse>
                 </Container>

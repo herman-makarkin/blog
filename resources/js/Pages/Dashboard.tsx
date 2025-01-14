@@ -18,7 +18,7 @@ export default function Dashboard({ featuredPosts, latestPosts }) {
 
             <div className="container">
                 <div className='text-center mt-5 mb-5'>
-                    <h1 className="h1">Welcome to ChadBlog</h1>
+                    <h1 className="h1">Welcome to CascadeBlog</h1>
                     <p className="text-muted">The Best blog in the universe</p>
                 </div>
                 <div className='w-full'>

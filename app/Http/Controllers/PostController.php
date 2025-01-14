@@ -157,13 +157,14 @@ class PostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|max:255',
             'slug' => 'required|max:30',
-            'body' => 'required|max:255',
+            'body' => 'required|max:2000',
             'state' => Rule::in(['published', 'draft']),
             ]
         );
 
         if ($request->hasFile('image')) {
-            $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
+            $image = $request->image ? $request
+                ->image->store('post/' . Str::random(), 'public') : null;
             $data['image'] = $image;
         }
 
@@ -233,7 +234,9 @@ class PostController extends Controller
         $state = request('state', '');
 
         if ($search) {
-            $posts = QueryBuilder::for(Post::class)->where('title', 'like', '%' . $search . '%')->where('user_id', Auth::id());
+            $posts = QueryBuilder::for(Post::class)
+                ->where('title', 'like', '%' . $search . '%')
+                ->where('user_id', Auth::id());
         } else {
             $posts = QueryBuilder::for(Post::class)->where('user_id', Auth::id());
         }
@@ -245,7 +248,9 @@ class PostController extends Controller
             $posts->where('state', $state);
         }
 
-        $posts = $posts->orderBy('updated_at', $sortMode)->paginate(5)->onEachSide(1);
+        $posts = $posts
+            ->orderBy('updated_at', $sortMode)
+            ->paginate(5)->onEachSide(1);
         $categories = Category::whereHas(
             'posts',
             function ($query) {
@@ -336,7 +341,7 @@ class PostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|max:255',
             'slug' => 'required|max:30',
-            'body' => 'required|max:255',
+            'body' => 'required|max:2000',
             ]
         );
 
@@ -350,7 +355,8 @@ class PostController extends Controller
         $image = $data['image'] ?? null;
 
         if ($request->hasFile('image')) {
-            $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
+            $image = $request->image ? $request
+                ->image->store('post/' . Str::random(), 'public') : null;
             $data['image'] = $image;
         } else {
             unset($data['image']);
