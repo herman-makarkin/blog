@@ -46,7 +46,7 @@ const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParam
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="h3 text-body">
+                <h2 className="text-gray fs-3">
                     Blog
                 </h2>
             }

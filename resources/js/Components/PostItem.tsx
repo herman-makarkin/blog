@@ -31,7 +31,7 @@ const PostComponent = ({ userItem = false, state = 'published', likes, categorie
         return;
     };
     return (
-        <Card className='d-flex w-full flex-row border-0'>
+        <Card className='d-block d-lg-flex w-full flex-row border-0'>
             <Card.Header className="me-3 border-0 bg-transparent p-0" style={{ maxWidth: '300px' }}>
                 <img src={img} className='rounded-5' />
             </Card.Header>

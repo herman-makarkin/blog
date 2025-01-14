@@ -29,7 +29,7 @@ const blogIndex = ({ posts, queryParams, categories }) => {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2 className="text-gray fs-3">
                     Blog
                 </h2>
             }

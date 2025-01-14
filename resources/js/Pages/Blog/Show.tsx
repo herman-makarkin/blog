@@ -11,6 +11,7 @@ import { User } from '@/Components/User';
 import Comment from '@/Components/Comment';
 import AvatarComponent from '@/Components/AvatarComponent';
 import { Post } from '@/types';
+import Like from '@/Components/LikeButton';
 
 const blogShow = ({ article }: { article: Post }) => {
     const { data, setData, post, errors } = useForm({
@@ -27,7 +28,7 @@ const blogShow = ({ article }: { article: Post }) => {
     return (
         <AuthenticatedLayout
             header={
-                <h2 className="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                <h2 className="text-gray fs-3">
                     Blog
                 </h2>
             }
@@ -47,20 +48,14 @@ const blogShow = ({ article }: { article: Post }) => {
                             <span className='ms-5'>{article.publishedAt}</span>
                         </div>
                         <p className='mt-2'>{article.body}</p>
-                        <div className="categories">
+                        <Like slug={article.slug} likes={article.likes} />
+                        <div className="mt-3">
                             {article.categories.map((el, id) => (
                                 <Category key={id} title={el.title} bg_color={el.bg_color} text_color={el.text_color} />
                             ))}
                         </div>
 
-
-
-
-
-
-
-
-                        <section className="p-3 mt-4">
+                        <section className="p-3 mt-4 border-top">
                             {article.comments.map((el, id) => (
                                 <Comment postSlug={post.slug} comment={el} />
                             ))}
@@ -69,13 +64,11 @@ const blogShow = ({ article }: { article: Post }) => {
                                     <div className="d-flex flex-start w-100">
                                         <AvatarComponent image={usePage().props.auth.user.image} />
                                         <div data-mdb-input-init className="form-outline w-100 ms-2">
-                                            <textarea onChange={(e) => setData('body', e.target.value)} className="form-control" id="textAreaExample" rows={4}
-                                                style={{ background: "#fff" }}></textarea>
+                                            <textarea onChange={(e) => setData('body', e.target.value)} className="form-control" id="textAreaExample" rows={4}></textarea>
                                             <label className="form-label" htmlFor="textAreaExample">Message</label>
                                         </div>
                                     </div>
                                     <div className="float-end mt-2 pt-1">
-                                        <Button type="button" data-mdb-button-init data-mdb-ripple-init className="" variant='outline-primary'>Cancel</Button>
                                         <Button onClick={onSubmit} type="button" data-mdb-button-init data-mdb-ripple-init className="ms-3">Post comment</Button>
                                     </div>
                                 </Card.Body>

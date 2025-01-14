@@ -24,13 +24,15 @@ class DashboardController extends Controller
         foreach ($featuredPosts as $post) {
             $post->body = $post->getExcerpt();
             $post->readingTime = $post->getReadingTime();
+            $post->author = $post->user;
+            $post->author->image = $post->author->getAvatarUrl();
+            $post->categories = $post->categories;
             $post->publishedAt = $post->published_at->diffForHumans();
+            $post->likes = $post->getLikes();
+            $post->image = $post->getThumbnailUrl();
         }
 
         foreach ($latestPosts as $post) {
-            // $post->body = $post->getExcerpt();
-            // $post->readingTime = $post->getReadingTime();
-            // $post->publishedAt = $post->published_at->diffForHumans();
             $post->body = $post->getExcerpt();
             $post->readingTime = $post->getReadingTime();
             $post->author = $post->user;

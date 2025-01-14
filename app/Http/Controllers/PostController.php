@@ -79,6 +79,7 @@ class PostController extends Controller
         $post->publishedAt = $post->published_at->diffForHumans();
         $post->categories = $post->categories;
         $post->comments = $post->comments;
+        $post->likes = $post->getLikes();
 
         foreach ($post->comments as $comment) {
             $comment->author = $comment->user;
