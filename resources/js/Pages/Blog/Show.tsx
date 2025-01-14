@@ -10,8 +10,9 @@ import Category from '@/Components/Category';
 import { User } from '@/Components/User';
 import Comment from '@/Components/Comment';
 import AvatarComponent from '@/Components/AvatarComponent';
+import { Post } from '@/types';
 
-const blogShow = ({ article }) => {
+const blogShow = ({ article }: { article: Post }) => {
     const { data, setData, post, errors } = useForm({
         body: '',
         _method: 'POST',
@@ -21,7 +22,7 @@ const blogShow = ({ article }) => {
         e: React.ChangeEvent<HTMLInputElement>,
     ) => {
         e.preventDefault();
-        post(route('post.store', article.slug), { preserveScroll: true });
+        post(route('post.storeComment', article.slug), { preserveScroll: true });
     };
     return (
         <AuthenticatedLayout
@@ -59,7 +60,7 @@ const blogShow = ({ article }) => {
 
 
 
-                        <section className="bg-dark p-3 mt-4">
+                        <section className="p-3 mt-4">
                             {article.comments.map((el, id) => (
                                 <Comment postSlug={post.slug} comment={el} />
                             ))}

@@ -35,9 +35,11 @@ class PostController extends Controller
         }
 
         $posts = $posts->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
-        $categories = Category::whereHas('posts', function ($query) {
-            $query->published();
-        })->take(10)->get();
+        $categories = Category::whereHas(
+            'posts', function ($query) {
+                $query->published();
+            }
+        )->take(10)->get();
 
 
         foreach ($posts as $post) {
@@ -51,16 +53,19 @@ class PostController extends Controller
             $post->image = $post->getThumbnailUrl();
         }
 
-        return Inertia::render("Blog/Index", [
+        return Inertia::render(
+            "Blog/Index", [
             'posts' => $posts,
             'queryParams' => request()->query() ?: null,
             'categories' => $categories,
-        ]);
+            ]
+        );
     }
 
     public function show(Post $post)
     {
         $post->author = $post->user;
+        $post->image = $post->getThumbnailUrl();
         $post->publishedAt = $post->published_at->diffForHumans();
         $post->categories = $post->categories;
         $post->comments = $post->comments;
@@ -120,6 +125,22 @@ class PostController extends Controller
         return Redirect::to('/dashboard');
     }
 
+    public function storeComment(Request $request, Post $post): RedirectResponse
+    {
+        $data = $request->validate(
+            [
+            'body' => 'required|max:255',
+            ]
+        );
+
+        $data['user_id'] = Auth::id();
+        $data['post_id'] = $post->id;
+
+        $post = Comment::create($data);
+
+        return back();
+    }
+
     public function like(Post $post)
     {
         $user_id = Auth::id();
@@ -144,9 +165,11 @@ class PostController extends Controller
         }
 
         $posts = $posts->orderBy('updated_at', $sortMode)->paginate(5)->onEachSide(1);
-        $categories = Category::whereHas('posts', function ($query) {
-            $query->published();
-        })->take(10)->get();
+        $categories = Category::whereHas(
+            'posts', function ($query) {
+                $query->published();
+            }
+        )->take(10)->get();
 
 
         foreach ($posts as $post) {
@@ -160,11 +183,13 @@ class PostController extends Controller
             $post->image = $post->getThumbnailUrl();
         }
 
-        return Inertia::render("Blog/myBlogs", [
+        return Inertia::render(
+            "Blog/myBlogs", [
             'posts' => $posts,
             'queryParams' => request()->query() ?: null,
             'categories' => $categories,
-        ]);
+            ]
+        );
     }
 
     public function destroy(Post $post)

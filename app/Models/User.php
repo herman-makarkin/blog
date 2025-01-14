@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /**
+ * @use HasFactory<\Database\Factories\UserFactory> 
+*/
     use HasFactory;
     use Notifiable;
 

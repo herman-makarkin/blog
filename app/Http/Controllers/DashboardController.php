@@ -11,6 +11,10 @@ class DashboardController extends Controller
 {
     /**
      * Handle the incoming request.
+     *
+     * $request request
+     *
+     * @return Inertia render
      */
     public function __invoke(Request $request)
     {
@@ -30,11 +34,13 @@ class DashboardController extends Controller
         }
 
 
-        return Inertia::render("Dashboard", [
+        return Inertia::render(
+            "Dashboard", [
 
             'featuredPosts' => $featuredPosts,
             'latestPosts' => $latestPosts,
 
-        ]);
+            ]
+        );
     }
 }

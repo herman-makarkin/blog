@@ -12,13 +12,15 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('likes', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class)->index();
-            $table->integer('likeable_id')->unsigned();
-            $table->string("likeable_type");
-            $table->timestamps();
-        });
+        Schema::create(
+            'likes', function (Blueprint $table) {
+                $table->id();
+                $table->foreignIdFor(User::class)->index();
+                $table->integer('likeable_id')->unsigned();
+                $table->string("likeable_type");
+                $table->timestamps();
+            }
+        );
     }
 
     /**

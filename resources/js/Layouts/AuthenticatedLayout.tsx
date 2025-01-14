@@ -76,7 +76,7 @@ export default function Authenticated({
                                 Profile
                             </NavDropdown.Item>
                             <NavDropdown.Item as='button'>
-                                <Button onClick={theme.toggle}>Toggle</Button>
+                                <Button onClick={theme.toggle}>Toggle theme</Button>
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item as="button">

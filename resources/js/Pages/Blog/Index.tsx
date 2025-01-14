@@ -6,8 +6,18 @@ import { Container } from 'react-bootstrap';
 import PostItem from '@/Components/PostItem';
 import Pagination from '@/Components/Pagination';
 import Tab from '@/Components/Tab';
+import { Category, Post } from '@/types';
 
-const blogIndex = ({ posts, queryParams, categories }) => {
+interface queryParams {
+    sort_mode: string,
+    search: string,
+}
+
+interface data {
+    post: Post[]
+}
+
+const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParams: queryParams, categories: Category[] }) => {
     queryParams = queryParams || {};
 
     const sortChanged = (sort: string): void => {
@@ -33,7 +43,10 @@ const blogIndex = ({ posts, queryParams, categories }) => {
 
             <Container className='mt-5'>
                 <div className="row">
-                    <div className="col">
+                    <div className="col-12 col-lg-3">
+                        <Sidebar categories={categories} searchChanged={searchChanged} />
+                    </div>
+                    <div className="col-12 col-lg-9">
                         <ul className="nav nav-tabs">
                             <li className="nav-item">
                                 <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text='Latest' mode='desc' />
@@ -67,9 +80,6 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                                 <Pagination links={posts.links} />
                             </div>
                         ) : <></>}
-                    </div>
-                    <div className="col-3">
-                        <Sidebar categories={categories} searchChanged={searchChanged} />
                     </div>
                 </div>
             </Container>

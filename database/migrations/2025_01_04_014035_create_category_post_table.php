@@ -12,12 +12,14 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('category_post', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Post::class);
-            $table->foreignIdFor(Category::class);
-            $table->timestamps();
-        });
+        Schema::create(
+            'category_post', function (Blueprint $table) {
+                $table->id();
+                $table->foreignIdFor(Post::class);
+                $table->foreignIdFor(Category::class);
+                $table->timestamps();
+            }
+        );
     }
 
     /**

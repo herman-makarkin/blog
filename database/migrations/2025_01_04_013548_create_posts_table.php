@@ -11,23 +11,25 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(User::class);
-            $table->string('image')->nullable();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('body');
+        Schema::create(
+            'posts', function (Blueprint $table) {
+                $table->id();
+                $table->foreignIdFor(User::class);
+                $table->string('image')->nullable();
+                $table->string('title');
+                $table->string('slug')->unique();
+                $table->text('body');
 
-            $table->string('state');
+                $table->string('state');
 
-            $table->timestamp('published_at')->nullable()->default(now());
-            $table->boolean('featured')->default(false);
+                $table->timestamp('published_at')->nullable()->default(now());
+                $table->boolean('featured')->default(false);
 
-            $table->softDeletes();
+                $table->softDeletes();
 
-            $table->timestamps();
-        });
+                $table->timestamps();
+            }
+        );
     }
 
     /**

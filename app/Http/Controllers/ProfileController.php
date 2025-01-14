@@ -21,10 +21,12 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Profile/Edit', [
+        return Inertia::render(
+            'Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
-        ]);
+            ]
+        );
     }
 
     /**
@@ -60,9 +62,11 @@ class ProfileController extends Controller
         if (Auth::user()->image) {
             Storage::disk('public')->delete(Auth::user()->image);
         }
-        $request->validate([
+        $request->validate(
+            [
             'image' => 'nullable|image|max:2048',
-        ]);
+            ]
+        );
         $image = $request->image ? $request->image->store('user/' . Str::random(), 'public') : null;
 
         $request->user()->image = $image;
@@ -78,9 +82,11 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
-        $request->validate([
+        $request->validate(
+            [
             'password' => ['required', 'current_password'],
-        ]);
+            ]
+        );
 
         $user = $request->user();
 

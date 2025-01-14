@@ -18,9 +18,11 @@ class DatabaseSeeder extends Seeder
         // Post::factory(100)->create();
         Category::factory()->has(Post::factory(10))->count(10)->create();
 
-        User::factory()->create([
+        User::factory()->create(
+            [
             'name' => 'Herman',
             'email' => 'german.makarkin@gmail.com',
-        ]);
+            ]
+        );
     }
 }

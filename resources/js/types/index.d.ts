@@ -1,4 +1,23 @@
+import Category from '@/Components/Category';
 import { Config } from 'ziggy-js';
+
+export interface Post {
+    id?: number;
+    title: string;
+    body: string;
+    slug: string;
+    categories: Category[],
+    state: string;
+    publishedAt: string;
+}
+
+export type Category = {
+    id: number,
+    title: string,
+    text_color: string,
+    bg_color: string,
+    slug: string,
+}
 
 export interface User {
     id: number;
