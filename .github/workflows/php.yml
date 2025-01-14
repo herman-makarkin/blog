@@ -20,5 +20,7 @@ jobs:
           tools: composer:v2
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
+      - name: Phpstan
         run: ./vendor/bin/phpstan ./app/Http/Controllers/PostController.php
+      - name: Phpcs
         run: ./vendor/bin/phpcs ./app/Http/Controllers/PostController.php
