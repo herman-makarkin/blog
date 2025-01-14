@@ -21,6 +21,6 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-interaction --no-progress --no-suggest
       - name: Phpstan
-        run: ./vendor/bin/phpstan ./app/Http/Controllers/PostController.php
+        run: ./vendor/bin/phpstan analyse ./app/Http/Controllers
       - name: Phpcs
         run: ./vendor/bin/phpcs ./app/Http/Controllers/PostController.php
