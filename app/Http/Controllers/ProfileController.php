@@ -35,21 +35,22 @@ class ProfileController extends Controller
         $request->user()->fill($request->validated());
         $data = $request->user();
         $image = $data['image'] ?? null;
+        $user = Auth::user();
 
-        if ($image) {
-            if (Auth::user()->image) {
-                Storage::disk('public')->delete(Auth::user()->image);
-            }
-            $data['image'] = $image->store('project/' . Str::random(), 'public');
-        }
+        // if ($image) {
+        //     if (Auth::user()->image) {
+        //         Storage::disk('public')->delete(Auth::user()->image);
+        //     }
+        //     $data['image'] = $image->store('project/' . Str::random(), 'public');
+        // }
+
 
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-        //
-        // $user->update($data);
+
+        $user->update($data);
         $request->user()->save();
-        dump($request->user());
 
         return back();
     }
@@ -67,7 +68,6 @@ class ProfileController extends Controller
         $request->user()->image = $image;
 
         $request->user()->save();
-        dd($request->user());
 
 
         return back();

@@ -1,3 +1,4 @@
+import Category from '@/Components/Category';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import SelectInput from '@/Components/SelectInput';
@@ -5,19 +6,24 @@ import TextAreaInput from '@/Components/TextAreaInput';
 import TextInput from '@/Components/TextInput';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Link, useForm } from '@inertiajs/react';
+import { CircleX } from 'lucide-react';
 import { FormEventHandler } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Dropdown } from 'react-bootstrap';
 
-const Edit = ({ article }) => {
+const Edit = ({ article, categories, catIds }) => {
     const { data, setData, post, errors } = useForm({
-        image: article.image || '',
+        image: undefined,
         title: article.title || '',
         state: article.state || state,
         slug: article.slug || '',
         // status: post.status || '',
         body: article.body || '',
+        categories: catIds || [],
+
         // deadline: post.deadline || '',
     });
+
+    console.log(article, catIds, 'penis2');
 
     const onSubmit: FormEventHandler = (e, state: string) => {
         e.preventDefault();
@@ -90,6 +96,47 @@ const Edit = ({ article }) => {
                         onChange={(e) => setData('body', e.target.value)}
                     />
                     <InputError message={errors.body} />
+                </Form.Group>
+                <Form.Group className="mt-3">
+                    {data.categories.map((el, id) => {
+                        let cat = categories.find((el) => el.id === data.categories[id]);
+                        if (cat) {
+                            return (
+                                <div className='d-inline'>
+                                    <CircleX className='me-1 d-inline ' onClick={() => {
+                                        // It just works
+                                        setData('categories', (() => { data.categories.splice(data.categories.indexOf(el), 1); return data.categories })());
+                                    }}></CircleX>
+                                    <Category title={cat.title} className='' text_color={cat.text_color} bg_color={cat.bg_color} />
+                                </div>
+                            )
+                        }
+                        return <></>
+                    })}
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Dropdown Button
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {categories.map((el, id) => (
+                                <Dropdown.Item
+                                    onClick={() => {
+
+                                        let result = [];
+                                        if (data.categories.includes(el.id)) {
+                                            result = data.categories;
+                                        } else {
+                                            result = data.categories.concat(el.id);
+                                        }
+                                        setData('categories', result)
+                                    }}>
+                                    {el.title}
+                                </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <InputError message={errors.categories} />
                 </Form.Group>
                 <Form.Group className="d-flex mt-4 flex-row-reverse">
                     <Button

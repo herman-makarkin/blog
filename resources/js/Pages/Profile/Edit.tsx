@@ -40,31 +40,25 @@ export default function Edit({
             <div className="py-12">
                 <div className="d-flex justify-center">
                     <div className="col-12 col-md-8 mt-4 p-4 shadow">
-                        <div className="d-flex justify-start">
-                            {user.image ? <img className='rounded-circle' src={user.image} style={{ maxWidth: "50px", maxHeight: "50px" }} alt="" />
-                                : <Avatar style={{ width: 100, height: 100 }} />}
-
-                            {user.image && (
-                                <div style={{ maxWidth: 500 }}>
-                                    <img src={user.image} alt="" />
+                        <div className="max-w-xl">
+                            <div className="d-flex justify-start">
+                                {user.image ? <img className='rounded-circle' src={user.image} style={{ maxWidth: "50px", maxHeight: "50px" }} alt="" />
+                                    : <Avatar style={{ width: 100, height: 100 }} />}
+                                <div className="ms-3">
+                                    <h3>{user.name}</h3>
+                                    <p className="description">{user.description}</p>
                                 </div>
-                            )}
-                            <div className="ms-3">
-                                <h3>{user.name}</h3>
-                                <p className="description">{user.description}</p>
+                            </div>
+                            <div className="">
+                                <input type="file" className="mb-3 mt-3 form-control mt-1 block w-full" id="avatar"
+                                    onChange={(e) => {
+                                        if (e.target.files)
+                                            return setData('image', e.target.files[0]);
+                                    }}
+                                />
+                                <Button variant='primary' onClick={onSubmit}>Upload</Button>
                             </div>
                         </div>
-                        <div className="d-flex">
-                            <input type="file" className="form-control mt-1 block w-full" id="avatar"
-                                onChange={(e) => {
-                                    if (e.target.files)
-                                        return setData('image', e.target.files[0]);
-                                }}
-                            />
-                            <Button variant='primary' onClick={onSubmit}>Upload</Button>
-                        </div>
-
-
                     </div>
                 </div>
                 <div className="d-flex flex-column align-items-center">

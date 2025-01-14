@@ -44,9 +44,11 @@ class PostController extends Controller
             $post->body = $post->getExcerpt();
             $post->readingTime = $post->getReadingTime();
             $post->author = $post->user;
+            $post->author->image = $post->author->getAvatarUrl();
             $post->categories = $post->categories;
             $post->publishedAt = $post->published_at->diffForHumans();
             $post->likes = $post->getLikes();
+            $post->image = $post->getThumbnailUrl();
         }
 
         return Inertia::render("Blog/Index", [
@@ -79,14 +81,20 @@ class PostController extends Controller
 
     public function create()
     {
-        return inertia(("Blog/Create"));
+        $categories = Category::all();
+        return inertia(
+            "Blog/Create",
+            [
+                'categories' => $categories
+            ]
+        );
     }
 
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate(
             [
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|max:255',
             'slug' => 'required|max:30',
             'body' => 'required|max:255',
@@ -94,11 +102,20 @@ class PostController extends Controller
             ]
         );
 
-        $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
+        // $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
+        // $data['image'] = $image;
+
+        if ($request->hasFile('image')) {
+            $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
+            $data['image'] = $image;
+        }
+
         $data['user_id'] = Auth::id();
-        $data['image'] = $image;
+
 
         $post = Post::create($data);
+
+        $post->categories()->attach($request->categories);
 
         return Redirect::to('/dashboard');
     }
@@ -136,9 +153,11 @@ class PostController extends Controller
             $post->body = $post->getExcerpt();
             $post->readingTime = $post->getReadingTime();
             $post->author = $post->user;
+            $post->author->image = $post->author->getAvatarUrl();
             $post->categories = $post->categories;
             $post->publishedAt = $post->published_at->diffForHumans();
             $post->likes = $post->getLikes();
+            $post->image = $post->getThumbnailUrl();
         }
 
         return Inertia::render("Blog/myBlogs", [
@@ -162,11 +181,19 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        // dd(new PostResource($post));
+        $categories = Category::all();
+        $ids = [];
+
+        for ($x = 0; $x < count($post->categories); $x++) {
+            $ids[$x] = $post->categories[$x]->id;
+        }
+
         return Inertia(
             'Blog/Edit',
             [
             'article' => $post,
+            'categories' => $categories,
+            'catIds' => $ids,
             ]
         );
     }
@@ -176,7 +203,7 @@ class PostController extends Controller
     {
         $data = $request->validate(
             [
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|max:255',
             'slug' => 'required|max:30',
             'body' => 'required|max:255',
@@ -190,14 +217,26 @@ class PostController extends Controller
             $post->state->transitionTo(Draft::class);
         }
 
+        // $image = $data['image'] ?? null;
+        // if ($image) {
+        //     if ($post->image) {
+        //         Storage::disk('public')->delete($post->image);
+        //     }
+        //     $data['image'] = $image->store('post/' . Str::random(), 'public');
+        // }
+        //
         $image = $data['image'] ?? null;
-        if ($image) {
-            if ($post->image) {
-                Storage::disk('public')->delete($post->image);
-            }
-            $data['image'] = $image->store('post/' . Str::random(), 'public');
+
+        if ($request->hasFile('image')) {
+            $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
+            $data['image'] = $image;
         }
+
         $post->update($data);
+        $post->save();
+
+        $post->categories()->detach();
+        $post->categories()->attach($request->categories);
 
         return to_route('post.myblogs');
     }

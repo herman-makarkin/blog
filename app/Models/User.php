@@ -43,8 +43,6 @@ class User extends Authenticatable
         };
 
         return Storage::url($this->image);
-
-
     }
 
     /**

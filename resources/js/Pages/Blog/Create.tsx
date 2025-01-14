@@ -1,3 +1,4 @@
+import Category from '@/Components/Category';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextAreaInput from '@/Components/TextAreaInput';
@@ -5,7 +6,7 @@ import TextInput from '@/Components/TextInput';
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Dropdown } from 'react-bootstrap';
 
 interface FormProps {
     image: File | undefined;
@@ -17,13 +18,14 @@ interface FormProps {
     // deadline: string;
 }
 
-const Create = () => {
+const Create = ({ categories }) => {
     const { data, setData, post, errors } = useForm<FormProps>({
         image: undefined,
         title: '',
         slug: '',
         body: '',
         state: '',
+        categories: [],
         _method: 'POST',
     });
 
@@ -35,7 +37,7 @@ const Create = () => {
         post(route('post.store'));
     };
 
-    console.log('hi')
+    console.log(categories);
 
     return (
         <Authenticated
@@ -94,6 +96,42 @@ const Create = () => {
                         onChange={(e) => setData('body', e.target.value)}
                     />
                     <InputError message={errors.body} />
+                </Form.Group>
+                <Form.Group className="mt-3">
+                    {data.categories.map((el, id) => {
+                        let cat = categories.find((el) => el.id === data.categories[id]);
+                        console.log(el, cat);
+                        if (cat) {
+                            return (
+                                <Category title={cat.title} text_color={cat.text_color} bg_color={cat.bg_color} />
+                            )
+                        }
+                        return <></>
+                    })}
+                    <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                            Dropdown Button
+                        </Dropdown.Toggle>
+
+                        <Dropdown.Menu>
+                            {categories.map((el, id) => (
+                                <Dropdown.Item
+                                    onClick={() => {
+
+                                        let result = [];
+                                        if (data.categories.includes(el.id)) {
+                                            result = data.categories;
+                                        } else {
+                                            result = data.categories.concat(el.id);
+                                        }
+                                        setData('categories', result)
+                                    }}>
+                                    {el.title}
+                                </Dropdown.Item>
+                            ))}
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    <InputError message={errors.categories} />
                 </Form.Group>
                 <Form.Group className="d-flex mt-4 flex-row-reverse">
                     <Button
