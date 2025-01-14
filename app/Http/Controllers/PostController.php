@@ -1,11 +1,20 @@
 <?php
+/**
+ * My incredible blog site
+ *
+ * PHP version 8.4
+ *
+ * @category PHP
+ * @package  Blog
+ * @author   Herman Makarkin <german.makarkin@gmail.com>
+ * @license  https://www.gnu.org/licenses/gpl-3.0.en.html#license-text GPL License
+ * @link     https://github.com/herman-makarkin/blog
+ */
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PostResource;
 use App\Models\Category;
 use App\Models\Comment;
-use App\Models\Like;
 use App\Models\Post;
 use App\States\Post\Draft;
 use App\States\Post\Published;
@@ -21,10 +30,21 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 use function Laravel\Prompts\search;
 
+/**
+ * My incredible blog site
+ *
+ * PHP version 8.4
+ *
+ * @category PHP
+ * @package  Blog
+ * @author   Herman Makarkin <german.makarkin@gmail.com>
+ * @license  https://www.gnu.org/licenses/gpl-3.0.en.html#license-text GPL License
+ * @link     https://github.com/herman-makarkin/blog
+ */
 class PostController extends Controller
 {
     /**
-     * This is the the main Blog page
+     * This is the main Blog page
      *
      * @return void
      */
@@ -78,7 +98,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Show the blog page
      *
      * @param Post $post the post
      *
@@ -108,7 +128,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Create a post
      *
      * @return void
      */
@@ -124,7 +144,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Store a post
      *
      * @param Request $request the request
      *
@@ -142,9 +162,6 @@ class PostController extends Controller
             ]
         );
 
-        // $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
-        // $data['image'] = $image;
-
         if ($request->hasFile('image')) {
             $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
             $data['image'] = $image;
@@ -161,7 +178,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Store a comment on post page
      *
      * @param Request $request the request
      * @param Post    $post    is the post
@@ -185,7 +202,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Leave a like
      *
      * @param Post $post is the post
      *
@@ -204,7 +221,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * MyBlogs page
      *
      * @return void
      */
@@ -259,7 +276,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Destroy post
      *
      * @param Post $post is the post
      *
@@ -278,7 +295,7 @@ class PostController extends Controller
     }
 
     /**
-     * This is the the main Blog page
+     * Edit post
      *
      * @param Post $post is the post
      *
@@ -305,7 +322,7 @@ class PostController extends Controller
 
 
     /**
-     * This is the the main Blog page
+     * Update post
      *
      * @param Request $request the request
      * @param Post    $post    is the post
@@ -330,19 +347,13 @@ class PostController extends Controller
             $post->state->transitionTo(Draft::class);
         }
 
-        // $image = $data['image'] ?? null;
-        // if ($image) {
-        //     if ($post->image) {
-        //         Storage::disk('public')->delete($post->image);
-        //     }
-        //     $data['image'] = $image->store('post/' . Str::random(), 'public');
-        // }
-        //
         $image = $data['image'] ?? null;
 
         if ($request->hasFile('image')) {
             $image = $request->image ? $request->image->store('post/' . Str::random(), 'public') : null;
             $data['image'] = $image;
+        } else {
+            unset($data['image']);
         }
 
         $post->update($data);

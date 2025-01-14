@@ -27,8 +27,8 @@ const Edit = ({ article, categories, catIds }) => {
 
     const onSubmit: FormEventHandler = (e, state: string) => {
         e.preventDefault();
-        data.state = state,
-            post(route('post.update', article.slug));
+        data.state = state;
+        post(route('post.update', article.slug));
     };
     return (
         <Authenticated
