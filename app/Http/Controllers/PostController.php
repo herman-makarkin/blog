@@ -27,6 +27,7 @@ class PostController extends Controller
     {
         $sortMode = request('sort_mode', 'desc');
         $search = request('search', '');
+        $category = request('category', '');
 
         if ($search) {
             $posts = Post::where('title', 'like', '%' . $search . '%');
@@ -34,9 +35,17 @@ class PostController extends Controller
             $posts = Post::query();
         }
 
-        $posts = $posts->published()->orderBy('published_at', $sortMode)->paginate(5)->onEachSide(1);
+        if ($category) {
+            $posts->withCategory($category);
+        }
+
+        $posts = $posts->published()
+            ->orderBy('published_at', $sortMode)
+            ->paginate(5)
+            ->onEachSide(1);
         $categories = Category::whereHas(
-            'posts', function ($query) {
+            'posts',
+            function ($query) {
                 $query->published();
             }
         )->take(10)->get();
@@ -54,7 +63,8 @@ class PostController extends Controller
         }
 
         return Inertia::render(
-            "Blog/Index", [
+            "Blog/Index",
+            [
             'posts' => $posts,
             'queryParams' => request()->query() ?: null,
             'categories' => $categories,
@@ -157,6 +167,7 @@ class PostController extends Controller
     {
         $sortMode = request('sort_mode', 'desc');
         $search = request('search', '');
+        $category = request('category', '');
 
         if ($search) {
             $posts = Post::where(['title', 'like', '%' . $search . '%'], ['user_id', Auth::id()]);
@@ -164,9 +175,14 @@ class PostController extends Controller
             $posts = Post::where('user_id', Auth::id());
         }
 
+        if ($category) {
+            $posts->withCategory($category);
+        }
+
         $posts = $posts->orderBy('updated_at', $sortMode)->paginate(5)->onEachSide(1);
         $categories = Category::whereHas(
-            'posts', function ($query) {
+            'posts',
+            function ($query) {
                 $query->published();
             }
         )->take(10)->get();
@@ -184,7 +200,8 @@ class PostController extends Controller
         }
 
         return Inertia::render(
-            "Blog/myBlogs", [
+            "Blog/myBlogs",
+            [
             'posts' => $posts,
             'queryParams' => request()->query() ?: null,
             'categories' => $categories,

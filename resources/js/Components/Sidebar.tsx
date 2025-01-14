@@ -2,8 +2,14 @@ import { Link } from '@inertiajs/react';
 import React from 'react'
 import { InputGroup, FormGroup, Button } from 'react-bootstrap'
 import Category from './Category';
+import { CategoryT } from '@/types';
 
-const Sidebar = ({ searchChanged, categories }) => {
+const Sidebar = ({ reset, searchChanged, categories, user = false }: {
+    reset: () => void,
+    searchChanged: (x: string) => void,
+    categories: CategoryT[],
+    user: boolean
+}) => {
     let search = '';
     const setSearch = (value) => {
         console.log(value);
@@ -24,11 +30,12 @@ const Sidebar = ({ searchChanged, categories }) => {
             <h3 className='mt-5 mb-2'>Recommended Topics</h3>
             <div className="d-flex flex-wrap">
                 {categories.map((el, id) => (
-                    <Category key={id} bg_color={el.bg_color} text_color={el.text_color} title={el.title} />
+                    <Category user={user} slug={el.slug} key={id} bg_color={el.bg_color} text_color={el.text_color} title={el.title} />
                 ))}
             </div>
-            <div className="d-flex flex-row flex-wrap"></div>
-
+            <div className="d-flex flex-row flex-wrap">
+                <Button variant="primary" className="mt-3" onClick={() => reset()}>Clear Search</Button>
+            </div>
         </div>
     )
 }

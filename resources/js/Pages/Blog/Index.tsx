@@ -11,6 +11,7 @@ import { Category, Post } from '@/types';
 interface queryParams {
     sort_mode: string,
     search: string,
+    category: string,
 }
 
 interface data {
@@ -25,10 +26,22 @@ const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParam
         router.get(route('post.index'), queryParams);
     };
 
+    const categoryChanged = (category: string): void => {
+        queryParams['category'] = category;
+        router.get(route('post.index'), queryParams);
+    };
+
     const searchChanged = (search: string): void => {
         queryParams['search'] = search;
         router.get(route('post.index'), queryParams);
     };
+
+    const resetSearch = () => {
+        queryParams = {};
+        router.get(route('post.index'), queryParams);
+    }
+
+    console.log(categories);
 
     return (
         <AuthenticatedLayout
@@ -44,7 +57,7 @@ const blogIndex = ({ posts, queryParams, categories }: { posts: data, queryParam
             <Container className='mt-5'>
                 <div className="row">
                     <div className="col-12 col-lg-3">
-                        <Sidebar categories={categories} searchChanged={searchChanged} />
+                        <Sidebar reset={resetSearch} categories={categories} searchChanged={searchChanged} />
                     </div>
                     <div className="col-12 col-lg-9">
                         <ul className="nav nav-tabs">

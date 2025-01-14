@@ -20,6 +20,12 @@ const blogIndex = ({ posts, queryParams, categories }) => {
         router.get(route('post.myblogs'), queryParams);
     };
 
+    const resetSearch = () => {
+        queryParams = {};
+        router.get(route('post.myblogs'), queryParams);
+    }
+
+
     return (
         <AuthenticatedLayout
             header={
@@ -33,7 +39,10 @@ const blogIndex = ({ posts, queryParams, categories }) => {
 
             <Container className='mt-5'>
                 <div className="row">
-                    <div className="col">
+                    <div className="col-12 col-lg-3">
+                        <Sidebar user={true} reset={resetSearch} categories={categories} searchChanged={searchChanged} />
+                    </div>
+                    <div className="col-12 col-lg-9">
                         <ul className="nav nav-tabs">
                             <li className="nav-item">
                                 <Tab sort_mode={queryParams.sort_mode} sortChanged={sortChanged} text='Latest' mode='desc' />
@@ -62,16 +71,13 @@ const blogIndex = ({ posts, queryParams, categories }) => {
                                 ))
                                 }
                             </>
-                        ) : (<h2 className='text-center mt-5'>You have no posts</h2>)}
+                        ) : (<h2 className='text-center mt-5'>No posts</h2>)}
 
                         {posts.links.length > 3 ? (
                             <div className="d-flex flex-column justify-content-center align-items-center mt-3">
                                 <Pagination links={posts.links} />
                             </div>
                         ) : <></>}
-                    </div>
-                    <div className="col-3">
-                        <Sidebar categories={categories} searchChanged={searchChanged} />
                     </div>
                 </div>
             </Container>

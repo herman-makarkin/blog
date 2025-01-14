@@ -11,7 +11,7 @@ export interface Post {
     publishedAt: string;
 }
 
-export type Category = {
+export type CategoryT = {
     id: number,
     title: string,
     text_color: string,
