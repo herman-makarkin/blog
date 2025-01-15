@@ -23,6 +23,14 @@ export type CategoryT = {
     slug: string,
 }
 
+export type Comment = {
+    id: number,
+    body: string,
+    likes: number,
+    slug: string,
+    author: User,
+}
+
 export interface User {
     id: number;
     name: string;

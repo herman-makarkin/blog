@@ -212,6 +212,10 @@ class PostController extends Controller
     public function like(Post $post)
     {
         $user_id = Auth::id();
+        if (!$user_id) {
+            return back();
+        }
+
         if ($post->hasLiked($post, $user_id)) {
             $post->likes()->where('user_id', $user_id)->delete();
         } else {

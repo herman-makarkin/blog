@@ -12,6 +12,10 @@ class CommentController extends Controller
     public function like(Comment $comment)
     {
         $user_id = Auth::id();
+        if (!$user_id) {
+            return back();
+        }
+
         if ($comment->hasLiked($comment, $user_id)) {
             $comment->likes()->where('user_id', $user_id)->delete();
         } else {
